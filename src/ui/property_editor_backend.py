@@ -1,5 +1,5 @@
-import PyQt4.QtCore as QtCore
-import PyQt4.QtGui as QtGui
+import PyQt5.QtCore as QtCore
+import PyQt5.QtGui as QtGui
 from enum import Enum
 import ui.convenience
 

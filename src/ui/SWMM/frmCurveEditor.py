@@ -1,11 +1,11 @@
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 import core.swmm.curves
 from ui.SWMM.frmCurveEditorDesigner import Ui_frmCurveEditor
 import ui.convenience
 from core.swmm.curves import CurveType
 from core.swmm.curves import Curve
-# from PyQt4.QtGui import *
+# from PyQt5.QtGui import *
 
 
 class frmCurveEditor(QtGui.QMainWindow, Ui_frmCurveEditor):

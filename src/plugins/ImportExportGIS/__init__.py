@@ -1,8 +1,8 @@
 try:
     from qgis.core import *
     from qgis.gui import *
-    from PyQt4 import QtGui, QtCore, Qt
-    from PyQt4.QtGui import QMessageBox
+    from PyQt5 import QtGui, QtCore, Qt
+    from PyQt5.QtGui import QMessageBox
     from core.coordinate import Coordinate
     from core.epanet.hydraulics.link import Pipe
     from ui import import_export

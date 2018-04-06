@@ -1,5 +1,5 @@
-import PyQt4.QtCore as QtCore
-import PyQt4.QtGui as QtGui
+import PyQt5.QtCore as QtCore
+import PyQt5.QtGui as QtGui
 
 import Externals.swmm.outputapi.SMOutputWrapper as SMO
 from ui.SWMM.frmTableSelectionDesigner import Ui_frmTableSelection

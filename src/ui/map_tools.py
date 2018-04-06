@@ -1,9 +1,9 @@
 try:
     from qgis.core import *
     from qgis.gui import *
-    from PyQt4 import QtGui, QtCore, Qt
-    from PyQt4.QtGui import *
-    from PyQt4.Qt import *
+    from PyQt5 import QtGui, QtCore, Qt
+    from PyQt5.QtGui import *
+    from PyQt5.Qt import *
     from core.coordinate import Coordinate, Polygon
     from svgs_rc import *
     from qgis_icons_rc import *

@@ -1,7 +1,7 @@
 import os
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
-from PyQt4.QtGui import QMessageBox
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
+from PyQt5.QtGui import QMessageBox
 import traceback
 from ui.help import HelpHandler
 import ui.convenience
@@ -39,7 +39,7 @@ class frmTimeSeriesPlot(QtGui.QMainWindow, Ui_frmTimeSeriesPlot):
             self.rbnElapsed.setChecked(True)
             self.rbnDate_Clicked()
             # try:
-            #     self.set_from_text(QtGui.QApplication.clipboard().text())
+            #     self.set_from_text(QtGui.QGuiApplication.clipboard().text())
             # except Exception as ex:
             #     print(str(ex))
             #     self.lstData.clear()
@@ -95,7 +95,7 @@ class frmTimeSeriesPlot(QtGui.QMainWindow, Ui_frmTimeSeriesPlot):
                                     "Error plotting:\n" + msg,
                                     QMessageBox.Ok)
 
-        # cb = QtGui.QApplication.clipboard()
+        # cb = QtGui.QGuiApplication.clipboard()
         # cb.clear(mode=cb.Clipboard)
         # cb.setText(self.get_text(), mode=cb.Clipboard)
 
@@ -191,13 +191,13 @@ class frmTimeSeriesPlot(QtGui.QMainWindow, Ui_frmTimeSeriesPlot):
     #     if event.type() == QtCore.QEvent.KeyPress:
     #         print "eventFilter " + event.key()   # Key Code gets printed to the console
     #         if event.key() in [QtCore.Qt.Key_Copy]:
-    #             cb = QtGui.QApplication.clipboard()
+    #             cb = QtGui.QGuiApplication.clipboard()
     #             cb.clear(mode=cb.Clipboard)
     #             cb.setText('\n'.join([str(self.lstData.item(i).text()) for i in range(self.lstData.count())]),
     #                        mode=cb.Clipboard)
     #             return True
     #         elif event.key() in [QtCore.Qt.Key_Paste]:
-    #             cb = QtGui.QApplication.clipboard()
+    #             cb = QtGui.QGuiApplication.clipboard()
     #             self.lstData.clear()
     #             for line in cb.getText():
     #                 self.lstData.addItem(line)

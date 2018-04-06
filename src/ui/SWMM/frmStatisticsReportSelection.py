@@ -1,5 +1,5 @@
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 import core.swmm.stats as ostatistics
 #from core.swmm.stats import TStatsSelection
 from ui.help import HelpHandler

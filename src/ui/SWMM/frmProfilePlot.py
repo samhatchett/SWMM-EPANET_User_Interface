@@ -1,5 +1,5 @@
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 from ui.SWMM.frmProfilePlotDesigner import Ui_frmProfilePlot
 from ui.help import HelpHandler
 import core.swmm.hydraulics.node
@@ -62,13 +62,13 @@ class frmProfilePlot(QtGui.QMainWindow, Ui_frmProfilePlot):
                             current_node = link.outlet_node
 
     def cmdSave_Clicked(self):
-        cb = QtGui.QApplication.clipboard()
+        cb = QtGui.QGuiApplication.clipboard()
         cb.clear(mode=cb.Clipboard)
         cb.setText(self.get_text(), mode=cb.Clipboard)
 
     def cmdUse_Clicked(self):
         try:
-            self.set_from_text(QtGui.QApplication.clipboard().text())
+            self.set_from_text(QtGui.QGuiApplication.clipboard().text())
         except Exception as ex:
             print(str(ex))
             self.lstData.clear()

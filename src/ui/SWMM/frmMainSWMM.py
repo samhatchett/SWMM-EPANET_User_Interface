@@ -5,8 +5,8 @@ for typ in ["QString","QVariant", "QDate", "QDateTime", "QTextStream", "QTime", 
     sip.setapi(typ, 2)
 import webbrowser
 import traceback
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import QMessageBox, QFileDialog, QColor
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtGui import QMessageBox, QFileDialog, QColor
 from time import sleep
 
 from ui.model_utility import QString, from_utf8, transl8, process_events, StatusMonitor0
@@ -1781,7 +1781,7 @@ class ModelLayersSWMM(ModelLayers):
 
 if __name__ == '__main__':
     print("QApplication")
-    application = QtGui.QApplication(sys.argv)
+    application = QtGui.QGuiApplication(sys.argv)
 
     print("internationalization")
     from ui.settings import internationalization

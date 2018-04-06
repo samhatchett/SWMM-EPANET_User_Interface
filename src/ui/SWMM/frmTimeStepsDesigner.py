@@ -3,11 +3,11 @@
 # Form implementation generated from reading ui file 'frmTimeStepsDesigner.ui'
 #
 # Created: Tue Mar 08 16:51:05 2016
-#      by: PyQt4 UI code generator 4.11.3
+#      by: PyQt5 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -16,12 +16,12 @@ except AttributeError:
         return s
 
 try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
+    _encoding = QtGui.QGuiApplication.UnicodeUTF8
     def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+        return QtGui.QGuiApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+        return QtGui.QGuiApplication.translate(context, text, disambig)
 
 class Ui_frmTimeSteps(object):
     def setupUi(self, frmTimeSteps):

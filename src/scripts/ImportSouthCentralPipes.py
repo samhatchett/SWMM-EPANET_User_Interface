@@ -1,5 +1,5 @@
 import ui.import_export as ie
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 
 directory = r"C:/devNotMW/GitHub/SWMM-EPANET_User_Interface_dev_ui/test/core/epanet/Examples/SouthCentral/"
 

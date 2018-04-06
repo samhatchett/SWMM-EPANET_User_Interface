@@ -1,4 +1,4 @@
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 from frmMapDimensionsDesigner import Ui_frmMapDimensionsDesigner
 
 class frmMapDimensions(QtGui.QDialog):

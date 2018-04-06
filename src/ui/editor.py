@@ -1,9 +1,9 @@
 # Based on example code from https://github.com/goldsborough/Writer-Tutorial
 
 import os, sys
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QMessageBox
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QMessageBox
 
 ICON_FOLDER = "icons/editor/"
 MAX_RECENT_FILES = 8
@@ -461,7 +461,7 @@ class EditorWindow(QtGui.QMainWindow):
 
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QtGui.QGuiApplication(sys.argv)
 
     main = EditorWindow()
     main.show()

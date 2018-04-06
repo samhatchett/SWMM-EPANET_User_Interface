@@ -3,11 +3,11 @@
 # Form implementation generated from reading ui file 'frmMainDesigner.ui'
 #
 # Created: Wed Oct 18 12:03:51 2017
-#      by: PyQt4 UI code generator 4.10.2
+#      by: PyQt5 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -16,12 +16,12 @@ except AttributeError:
         return s
 
 try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
+    _encoding = QtGui.QGuiApplication.UnicodeUTF8
     def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+        return QtGui.QGuiApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+        return QtGui.QGuiApplication.translate(context, text, disambig)
 
 class Ui_frmMain(object):
     def setupUi(self, frmMain):

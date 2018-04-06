@@ -6,7 +6,7 @@ apps_qgis = 'C:\\OSGeo4W64\\apps\\qgis\\'
 site_packages = 'C:\\OSGeo4W64\\apps\\Python27\\Lib\\site-packages\\'
 
 a = Analysis(['frmMainEPANET.py'],
-             pathex=[site_packages + 'PyQt4', 'C:\\devNotMW\\GitHub\\SWMM-EPANET_User_Interface_dev_ui\\src\\ui\\EPANET'],
+             pathex=[site_packages + 'PyQt5', 'C:\\devNotMW\\GitHub\\SWMM-EPANET_User_Interface_dev_ui\\src\\ui\\EPANET'],
              binaries=None,
              datas=None,
              hiddenimports=[],

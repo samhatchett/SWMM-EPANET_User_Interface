@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QSettings
+from PyQt5.QtCore import QSettings
 from model_utility import ParseData
 import os
 

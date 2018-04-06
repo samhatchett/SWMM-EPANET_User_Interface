@@ -1,5 +1,5 @@
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtGui import QMessageBox
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtGui import QMessageBox
 from frmMapAddVectorDesigner import Ui_frmAddVectorLayer
 
 class frmMapAddVector(QtGui.QDialog):

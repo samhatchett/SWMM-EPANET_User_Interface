@@ -1,5 +1,5 @@
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 import core.swmm.options.backdrop
 from core.swmm.options.map import MapUnits
 from ui.SWMM.frmMapBackdropOptionsDesigner import Ui_frmMapBackdropOptions

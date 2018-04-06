@@ -1,5 +1,5 @@
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 from core.swmm.hydrology.lidcontrol import LIDType
 from ui.SWMM.frmLIDDesigner import Ui_frmLID
 from core.swmm.hydrology.lidcontrol import LIDControl

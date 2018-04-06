@@ -1,5 +1,5 @@
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 import core.swmm.options.dynamic_wave
 from ui.SWMM.frmDynamicWaveDesigner import Ui_frmDynamicWave
 from ui.model_utility import ParseData

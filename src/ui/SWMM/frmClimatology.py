@@ -1,5 +1,5 @@
-import PyQt4.QtCore as QtCore
-import PyQt4.QtGui as QtGui
+import PyQt5.QtCore as QtCore
+import PyQt5.QtGui as QtGui
 
 from core.swmm.climatology import EvaporationFormat
 from core.swmm.climatology import TemperatureSource
@@ -10,7 +10,7 @@ from ui.SWMM.frmTimeseries import frmTimeseries
 from ui.model_utility import ParseData
 
 
-# from PyQt4.QtGui import *
+# from PyQt5.QtGui import *
 
 
 class frmClimatology(QtGui.QMainWindow, Ui_frmClimatology):

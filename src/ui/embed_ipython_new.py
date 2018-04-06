@@ -7,20 +7,20 @@
 # do it in 1.1.0, which has the feature that the console and kernel are in the same process.
 #
 # Here is an example, based on the official one, which gives a convenience class that can be
-# easily plugged into an application. It's setup to work with pyqt4 and IPython 1.1.0 on Python 2.7:
+# easily plugged into an application. It's setup to work with PyQt5 and IPython 1.1.0 on Python 2.7:
 # """
-# # Set the QT API to PyQt4
+# # Set the QT API to PyQt5
 # import os
 # os.environ['QT_API'] = 'pyqt'
 # import sip
 # for typ in ["QString","QVariant", "QDate", "QDateTime", "QTextStream", "QTime", "QUrl"]:
 #     sip.setapi(typ, 2)
-# from PyQt4.QtGui import *
+# from PyQt5.QtGui import *
 # # Import the console machinery from ipython
 # from qtconsole.rich_jupyter_widget import RichJupyterWidget
 # from qtconsole.inprocess import QtInProcessKernelManager
 # from IPython.lib import guisupport
-# from PyQt4 import QtCore
+# from PyQt5 import QtCore
 #
 #
 # class QIPythonWidget(RichJupyterWidget):
@@ -123,7 +123,7 @@
 # #
 # #
 # # if __name__ == "__main__":
-# #     app = QtGui.QApplication([])
+# #     app = QtGui.QGuiApplication([])
 # #     show()
 # #     app.exec_()
 # #
@@ -136,20 +136,20 @@
 # # # do it in 1.1.0, which has the feature that the console and kernel are in the same process.
 # # #
 # # # Here is an example, based on the official one, which gives a convenience class that can be
-# # # easily plugged into an application. It's setup to work with pyqt4 and IPython 1.1.0 on Python 2.7:
+# # # easily plugged into an application. It's setup to work with PyQt5 and IPython 1.1.0 on Python 2.7:
 # # # """
-# # # # Set the QT API to PyQt4
+# # # # Set the QT API to PyQt5
 # # # import os
 # # # os.environ['QT_API'] = 'pyqt'
 # # # import sip
 # # # for typ in ["QString","QVariant", "QDate", "QDateTime", "QTextStream", "QTime", "QUrl"]:
 # # #     sip.setapi(typ, 2)
-# # # from PyQt4.QtGui import *
+# # # from PyQt5.QtGui import *
 # # # # Import the console machinery from ipython
 # # # from qtconsole.rich_jupyter_widget import RichJupyterWidget
 # # # from qtconsole.inprocess import QtInProcessKernelManager
 # # # from IPython.lib import guisupport
-# # # from PyQt4 import QtCore
+# # # from PyQt5 import QtCore
 # # #
 # # #
 # # # class QIPythonWidget(RichJupyterWidget):

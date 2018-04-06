@@ -3,8 +3,8 @@ import sys
 import glob
 import webbrowser
 import unittest
-import PyQt4.Qt as Qt
-import PyQt4.QtGui as QtGui
+import PyQt5.Qt as Qt
+import PyQt5.QtGui as QtGui
 import test.HTMLTestRunner
 import test.ui.frmTreeViewUITest as frmTreeViewUITest
 
@@ -98,7 +98,7 @@ class UserInterfaceTest(unittest.TestCase):
 
 if __name__ == "__main__":
     # execute only if run as a script
-    app = QtGui.QApplication(sys.argv)
+    app = QtGui.QGuiApplication(sys.argv)
 
     my_suite = unittest.TestSuite()
 

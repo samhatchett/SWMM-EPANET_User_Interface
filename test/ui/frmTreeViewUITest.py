@@ -1,7 +1,7 @@
 import sys
-import PyQt4.Qt as Qt
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.Qt as Qt
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 
 
 class frmTreeViewUITest(QtGui.QDialog):
@@ -79,7 +79,7 @@ class frmTreeViewUITest(QtGui.QDialog):
 
 
 if __name__ == '__main__':
-    app = QtGui.QApplication(sys.argv)
+    app = QtGui.QGuiApplication(sys.argv)
     MainApp = frmTreeViewUITest()
     MainApp.show()
     sys.exit(app.exec_())

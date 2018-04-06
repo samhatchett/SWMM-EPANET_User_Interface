@@ -1,11 +1,11 @@
-import PyQt4.QtGui as QtGui
-import PyQt4.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 import core.epanet.curves
 from ui.EPANET.frmCurveEditorDesigner import Ui_frmCurveEditor
 import ui.convenience
 from core.epanet.curves import CurveType
 from core.epanet.curves import Curve
-from PyQt4.QtGui import *
+from PyQt5.QtGui import *
 import numpy as np
 from ui.model_utility import ParseData
 from ui.model_utility import BasePlot

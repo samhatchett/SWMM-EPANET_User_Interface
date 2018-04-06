@@ -9,15 +9,15 @@ if sys.version_info >= (3,):
 # from embed_ipython_new import EmbedIPython
 from threading import Lock, Thread
 from time import sleep
-from PyQt4.Qsci import QsciScintilla
+from PyQt5.Qsci import QsciScintilla
 
 #from ui.ui_utility import EmbedMap
 # from ui.ui_utility import *
 from ui.frmGenericPropertyEditor import frmGenericPropertyEditor
 from ui.help import HelpHandler
 from ui.model_utility import *
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtGui import *
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtGui import *
 from frmMainDesigner import Ui_frmMain
 #from IPython import embed
 #from RestrictedPython import compile_restricted
@@ -51,7 +51,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
             print("QsciScintilla.SC_TYPE_STRING:")
             print(str(QsciScintilla.SC_TYPE_STRING))
         except Exception as exQsci:
-            print str(exQsci)
+            print(str(exQsci))
         self._forms = []
         self._editor_form = None
         """List of editor windows used during this session, kept here so they are not automatically closed."""
@@ -2367,7 +2367,7 @@ def print_process_id():
     print 'Process ID is:', os.getpid()
 
 if __name__ == '__main__':
-    application = QtGui.QApplication(sys.argv)
+    application = QtGui.QGuiApplication(sys.argv)
     QMessageBox.information(None, "frmMain",
                             "Run ui/EPANET/frmMainEPANET or ui/SWMM/frmMainSWMM instead of frmMain.",
                             QMessageBox.Ok)

@@ -5,8 +5,9 @@ for typ in ["QString","QVariant", "QDate", "QDateTime", "QTextStream", "QTime", 
     sip.setapi(typ, 2)
 import traceback
 import webbrowser
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import QMessageBox, QFileDialog, QColor
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtWidgets import QMessageBox, QFileDialog
+from PyQt5.QtGui import QColor
 from threading import Lock, Thread
 from time import sleep
 
@@ -590,7 +591,7 @@ class frmMainEPANET(frmMain):
         self.project.metric = self.project.options.hydraulics.flow_units in core.epanet.options.hydraulics.flow_units_metric
 
     def report_status(self):
-        print "report_status"
+        print("report_status")
         if not os.path.isfile(self.status_file_name):
             prefix, extension = os.path.splitext(self.project.file_name)
             if os.path.isfile(prefix + self.status_suffix):
@@ -1133,7 +1134,7 @@ class ModelLayersEPANET(ModelLayers):
             return None
 
 if __name__ == '__main__':
-    application = QtGui.QApplication(sys.argv)
+    application = QtGui.QGuiApplication(sys.argv)
 
     'try out internationalization'
     from ui.settings import internationalization

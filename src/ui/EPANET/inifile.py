@@ -1,6 +1,6 @@
 from enum import Enum
 from ui.inifile import ini_setting
-from PyQt4.QtCore import QSettings
+from PyQt5.QtCore import QSettings
 import core.epanet.options.hydraulics as hyd
 
 class EPROPERTY_JUNCTION(Enum):

@@ -1,5 +1,5 @@
-from PyQt4 import QtGui, QtCore, Qt
-from PyQt4.QtGui import QMessageBox
+from PyQt5 import QtGui, QtCore, Qt
+from PyQt5.QtGui import QMessageBox
 from ui.help import HelpHandler
 from ui.frmTranslateCoordinatesDesigner import Ui_frmTranslateCoordinatesDesigner
 from ui.model_utility import ParseData

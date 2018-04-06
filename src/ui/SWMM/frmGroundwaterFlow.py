@@ -1,5 +1,5 @@
-import PyQt4.QtCore as QtCore
-import PyQt4.QtGui as QtGui
+import PyQt5.QtCore as QtCore
+import PyQt5.QtGui as QtGui
 from ui.frmGenericPropertyEditorDesigner import Ui_frmGenericPropertyEditor
 from ui.SWMM.frmGroundwaterFlowDesigner import Ui_frmGroundwaterFlow
 from ui.property_editor_backend import PropertyEditorBackend

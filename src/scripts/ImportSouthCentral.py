@@ -1,5 +1,5 @@
 import ui.import_export as ie
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 
 """
     Example script that imports a particular set of shapefiles into an EPANET project.

@@ -1,8 +1,8 @@
 import os
 from enum import Enum
 from qgis.core import *
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import QMessageBox
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtGui import QMessageBox
 from core.coordinate import Coordinate
 from core.epanet.hydraulics.node import Junction as EpanetJunction
 from core.epanet.hydraulics.node import Tank as EpanetTank
