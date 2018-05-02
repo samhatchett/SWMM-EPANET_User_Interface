@@ -9,7 +9,7 @@ import numpy as np
 from datetime import datetime
 
 
-class frmPlotViewer(QtGui.QMainWindow, Ui_frmPlot):
+class frmPlotViewer(QtWidgets.QMainWindow, Ui_frmPlot):
     """
     Generic plot viewer window that can copy, save, and print a plot
     - Time Series Viewer
@@ -23,7 +23,7 @@ class frmPlotViewer(QtGui.QMainWindow, Ui_frmPlot):
         Args:
             dataset: time series data as pandas data frame
         """
-        QtGui.QMainWindow.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
         self.dataset = dataset
         self.plot_type = 'timeseries'
@@ -46,12 +46,12 @@ class frmPlotViewer(QtGui.QMainWindow, Ui_frmPlot):
         self.TXT_CURVE_HEADER = 'EPANET Curve Data'
         self.xvals = []
         self.yvals = []
-        QtCore.QObject.connect(self.btnClose, QtCore.SIGNAL("clicked()"), self.frm_close)
-        QtCore.QObject.connect(self.btnHelp, QtCore.SIGNAL("clicked()"), self.get_help)
-        QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL("triggered()"), self.open_datafile)
-        QtCore.QObject.connect(self.actionCopy, QtCore.SIGNAL("triggered()"), self.copy_plot)
-        QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL("triggered()"), self.save_plot)
-        QtCore.QObject.connect(self.actionPrint, QtCore.SIGNAL("triggered()"), self.print_plot)
+        #QtCore.QObject.connect(self.btnClose, QtCore.SIGNAL("clicked()"), self.frm_close)
+        #QtCore.QObject.connect(self.btnHelp, QtCore.SIGNAL("clicked()"), self.get_help)
+        #QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL("triggered()"), self.open_datafile)
+        #QtCore.QObject.connect(self.actionCopy, QtCore.SIGNAL("triggered()"), self.copy_plot)
+        #QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL("triggered()"), self.save_plot)
+        #QtCore.QObject.connect(self.actionPrint, QtCore.SIGNAL("triggered()"), self.print_plot)
         # self.installEventFilter(self)
         self.do_plot()
 

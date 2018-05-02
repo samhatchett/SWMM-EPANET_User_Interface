@@ -1,16 +1,17 @@
 import PyQt5.QtCore as QtCore
 import PyQt5.QtGui as QtGui
+import PyQt5.QtWidgets as QtWidgets
 from ui.frmGenericPropertyEditorDesigner import Ui_frmGenericPropertyEditor
-from property_editor_backend import PropertyEditorBackend
+from ui.property_editor_backend import PropertyEditorBackend
 
 
-class frmGenericPropertyEditor(QtGui.QMainWindow, Ui_frmGenericPropertyEditor):
+class frmGenericPropertyEditor(QtWidgets.QMainWindow, Ui_frmGenericPropertyEditor):
     def __init__(self, session, project_section, edit_these, new_item, title):
-        QtGui.QMainWindow.__init__(self, session)
+        QtWidgets.QMainWindow.__init__(self, session)
         self.setupUi(self)
         self.setWindowTitle(title)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        self.cmdOK.clicked().connect(self.cmdOK_Clicked)
+        self.cmdCancel.clicked().connect(self.cmdCancel_Clicked)
 
         self.session = session
         self.project = session.project

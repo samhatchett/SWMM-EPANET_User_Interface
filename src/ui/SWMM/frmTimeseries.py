@@ -8,15 +8,15 @@ import pandas as pd
 from ui.frmPlotViewer import frmPlotViewer
 
 
-class frmTimeseries(QtGui.QMainWindow, Ui_frmTimeseries):
+class frmTimeseries(QtWidgets.QMainWindow, Ui_frmTimeseries):
     def __init__(self, main_form, edit_these, new_item):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/timeserieseditordialog.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.btnFile, QtCore.SIGNAL("clicked()"), self.btnFile_Clicked)
-        QtCore.QObject.connect(self.btnView, QtCore.SIGNAL("clicked()"), self.btnView_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.btnFile, QtCore.SIGNAL("clicked()"), self.btnFile_Clicked)
+        #QtCore.QObject.connect(self.btnView, QtCore.SIGNAL("clicked()"), self.btnView_Clicked)
         self._main_form = main_form
         self.project = main_form.project
         self.section = self.project.timeseries
@@ -51,11 +51,11 @@ class frmTimeseries(QtGui.QMainWindow, Ui_frmTimeseries):
                 point_count = -1
                 for value in timeseries.values:
                     point_count += 1
-                    led = QtGui.QLineEdit(str(timeseries.dates[point_count]))
+                    led = QtWidgets.QLineEdit(str(timeseries.dates[point_count]))
                     self.tblTime.setItem(point_count,0,QtGui.QTableWidgetItem(led.text()))
-                    led = QtGui.QLineEdit(str(timeseries.times[point_count]))
+                    led = QtWidgets.QLineEdit(str(timeseries.times[point_count]))
                     self.tblTime.setItem(point_count,1,QtGui.QTableWidgetItem(led.text()))
-                    led = QtGui.QLineEdit(str(value))
+                    led = QtWidgets.QLineEdit(str(value))
                     self.tblTime.setItem(point_count,2,QtGui.QTableWidgetItem(led.text()))
 
     def GetData(self):

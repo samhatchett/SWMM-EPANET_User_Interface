@@ -39,7 +39,7 @@ class frmPumps(frmGenericPropertyEditor):
             # for curves, show available curves
             curves_section = self.project.find_section("CURVES")
             curves_list = curves_section.value[0:]
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('*')
             selected_index = 0
             for curve in curves_list:
@@ -51,7 +51,7 @@ class frmPumps(frmGenericPropertyEditor):
             combobox.setCurrentIndex(selected_index)
             self.tblGeneric.setCellWidget(5, column, combobox)
             # for initial status, show on/off
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('OFF')
             combobox.addItem('ON')
             combobox.setCurrentIndex(0)

@@ -205,7 +205,7 @@ def ReadIniFile(session):
 #             SetCurrentDir(S)
 # {
 #         S = ReadString('Directories', 'TempDir', TempDir)
-#         if S[Length(S)] <> '\': S = S + '\'
+#         if S[Length(S)] != '\': S = S + '\'
 #         if (DirectoryExists(S)): TempDir = S
 # }
 #         # Retrieve general preferences

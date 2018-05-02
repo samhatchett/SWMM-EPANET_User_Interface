@@ -1,19 +1,18 @@
-import PyQt5.QtGui as QtGui
-import PyQt5.QtCore as QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 from ui.help import HelpHandler
 from core.epanet.hydraulics.node import Demand
 from ui.EPANET.frmDemandsDesigner import Ui_frmDemands
 
 
-class frmDemands(QtGui.QMainWindow, Ui_frmDemands):
+class frmDemands(QtWidgets.QMainWindow, Ui_frmDemands):
 
     def __init__(self, main_form=None):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper=HelpHandler(self)
         self.help_topic = "epanet/src/src/Demand_E.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         # self.set_from(parent.project)
         self._main_form = main_form
         self.node_name = ''
@@ -34,11 +33,11 @@ class frmDemands(QtGui.QMainWindow, Ui_frmDemands):
         for demand in demands_list:
             if demand.junction_name == node_name:
                 row_count += 1
-                led = QtGui.QLineEdit(str(demand.base_demand))
+                led = QtWidgets.QLineEdit(str(demand.base_demand))
                 self.tblDemands.setItem(row_count,0,QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(demand.demand_pattern))
+                led = QtWidgets.QLineEdit(str(demand.demand_pattern))
                 self.tblDemands.setItem(row_count,1,QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(demand.category))
+                led = QtWidgets.QLineEdit(str(demand.category))
                 self.tblDemands.setItem(row_count,2,QtGui.QTableWidgetItem(led.text()))
                 self.junction_only = False
         if row_count == -1:
@@ -46,11 +45,11 @@ class frmDemands(QtGui.QMainWindow, Ui_frmDemands):
             for junction in junctions_list:
                 if junction.name == node_name:
                     row_count += 1
-                    led = QtGui.QLineEdit(str(junction.base_demand_flow))
+                    led = QtWidgets.QLineEdit(str(junction.base_demand_flow))
                     self.tblDemands.setItem(row_count,0,QtGui.QTableWidgetItem(led.text()))
-                    led = QtGui.QLineEdit(str(junction.demand_pattern_name))
+                    led = QtWidgets.QLineEdit(str(junction.demand_pattern_name))
                     self.tblDemands.setItem(row_count,1,QtGui.QTableWidgetItem(led.text()))
-                    led = QtGui.QLineEdit('')
+                    led = QtWidgets.QLineEdit('')
                     self.tblDemands.setItem(row_count,2,QtGui.QTableWidgetItem(led.text()))
                     self.junction_only = True
 

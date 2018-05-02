@@ -36,7 +36,7 @@ class frmOutlets(frmGenericPropertyEditor):
 
         for column in range(0, self.tblGeneric.columnCount()):
             # for flapgate, show true/false
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('True')
             combobox.addItem('False')
             combobox.setCurrentIndex(1)
@@ -47,7 +47,7 @@ class frmOutlets(frmGenericPropertyEditor):
             # tabular curve name
             curves_section = self.project.find_section("CURVES")
             curves_list = curves_section.value[0:]
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('*')
             selected_index = 0
             for value in curves_list:

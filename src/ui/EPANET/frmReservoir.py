@@ -39,7 +39,7 @@ class frmReservior(frmGenericPropertyEditor):
         for column in range(0, self.tblGeneric.columnCount()):
             # for pattern, show available patterns
             pattern_list = self.project.patterns.value
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in pattern_list:

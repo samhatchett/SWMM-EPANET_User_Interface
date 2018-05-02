@@ -6,15 +6,15 @@ from core.swmm.patterns import Pattern
 from ui.SWMM.frmPatternEditorDesigner import Ui_frmPatternEditor
 
 
-class frmPatternEditor(QtGui.QMainWindow, Ui_frmPatternEditor):
+class frmPatternEditor(QtWidgets.QMainWindow, Ui_frmPatternEditor):
     def __init__(self, main_form, edit_these, new_item):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/timepatterneditordialog.htm"
         self.setupUi(self)
         self.cboType.clear()
         ui.convenience.set_combo_items(PatternType, self.cboType)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.cboType.currentIndexChanged.connect(self.cboType_currentIndexChanged)
         self._main_form = main_form
         self.project = main_form.project
@@ -39,7 +39,7 @@ class frmPatternEditor(QtGui.QMainWindow, Ui_frmPatternEditor):
             point_count = -2
             for point in pattern.multipliers:
                 point_count += 1
-                led = QtGui.QLineEdit(str(point))
+                led = QtWidgets.QLineEdit(str(point))
                 self.tblMult.setItem(point_count,1,QtGui.QTableWidgetItem(led.text()))
 
     def cmdOK_Clicked(self):

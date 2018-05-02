@@ -11,13 +11,13 @@ class frmTreatment(frmGenericPropertyEditor):
 
     def __init__(self, main_form, node_name):
         # purposely not calling frmGenericPropertyEditor.__init__
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/treatmenteditor.htm"
         self.setupUi(self)
         self.node_name = node_name
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.setWindowTitle('SWMM Treatment Editor for Node ' + node_name)
         self.lblNotes.setText(Treatment.hint)
         self.tblGeneric.setColumnCount(1)
@@ -43,7 +43,7 @@ class frmTreatment(frmGenericPropertyEditor):
             pollutant_count += 1
             for treatment in treatment_list:
                 if treatment.node == node_name and treatment.pollutant == pollutant:
-                    led = QtGui.QLineEdit(str(treatment.function))
+                    led = QtWidgets.QLineEdit(str(treatment.function))
                     self.tblGeneric.setItem(pollutant_count,0,QtGui.QTableWidgetItem(led.text()))
         self._main_form = main_form
 

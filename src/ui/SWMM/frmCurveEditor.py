@@ -8,18 +8,18 @@ from core.swmm.curves import Curve
 # from PyQt5.QtGui import *
 
 
-class frmCurveEditor(QtGui.QMainWindow, Ui_frmCurveEditor):
+class frmCurveEditor(QtWidgets.QMainWindow, Ui_frmCurveEditor):
     def __init__(self, main_form, title, curve_type, edit_these, new_item):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/curveeditordialog.htm"
         self.setupUi(self)
         if title:
             self.setWindowTitle(title)
         self.cboCurveType.clear()
         ui.convenience.set_combo_items(core.swmm.curves.CurveType, self.cboCurveType)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        # QtCore.QObject.connect(self.cboCurveType, QtCore.SIGNAL("clicked()"), self.cboCurveType_currentIndexChanged)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cboCurveType, QtCore.SIGNAL("clicked()"), self.cboCurveType_currentIndexChanged)
         self.cboCurveType.currentIndexChanged.connect(self.cboCurveType_currentIndexChanged)
         # self.set_from(main_form.project)   # do after init to set curve type
         self._main_form = main_form
@@ -85,9 +85,9 @@ class frmCurveEditor(QtGui.QMainWindow, Ui_frmCurveEditor):
         point_count = -1
         for point in curve.curve_xy:
              point_count += 1
-             led = QtGui.QLineEdit(str(point[0]))
+             led = QtWidgets.QLineEdit(str(point[0]))
              self.tblMult.setItem(point_count,0,QtGui.QTableWidgetItem(led.text()))
-             led = QtGui.QLineEdit(str(point[1]))
+             led = QtWidgets.QLineEdit(str(point[1]))
              self.tblMult.setItem(point_count,1,QtGui.QTableWidgetItem(led.text()))
 
     def cmdOK_Clicked(self):

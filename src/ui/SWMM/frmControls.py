@@ -3,14 +3,14 @@ import PyQt5.QtCore as QtCore
 from ui.SWMM.frmControlsDesigner import Ui_frmControls
 
 
-class frmControls(QtGui.QMainWindow, Ui_frmControls):
+class frmControls(QtWidgets.QMainWindow, Ui_frmControls):
 
     def __init__(self, main_form):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/controlrules.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
 
         self.set_from(main_form.project)
         self._main_form = main_form

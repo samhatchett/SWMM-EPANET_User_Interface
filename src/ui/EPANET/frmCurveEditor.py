@@ -1,5 +1,4 @@
-import PyQt5.QtGui as QtGui
-import PyQt5.QtCore as QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 import core.epanet.curves
 from ui.EPANET.frmCurveEditorDesigner import Ui_frmCurveEditor
 import ui.convenience
@@ -14,18 +13,18 @@ import os
 import traceback
 
 
-class frmCurveEditor(QtGui.QMainWindow, Ui_frmCurveEditor):
+class frmCurveEditor(QtWidgets.QMainWindow, Ui_frmCurveEditor):
     def __init__(self, main_form, edit_these, new_item):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "epanet/src/src/Curve_Ed.htm"
         self.setupUi(self)
         self.loaded = False
         self.cboCurveType.clear()
         ui.convenience.set_combo_items(core.epanet.curves.CurveType, self.cboCurveType)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        #QtCore.QObject.connect(self.tblMult, QtCore.SIGNAL("cellChanged(int, int)"), self.tblMult_cellChanged(int, int))
-        #QtCore.QObject.connect(self.cboCurveType, QtCore.SIGNAL("clicked()"), self.cboCurveType_currentIndexChanged)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        ##QtCore.QObject.connect(self.tblMult, QtCore.SIGNAL("cellChanged(int, int)"), self.tblMult_cellChanged(int, int))
+        ##QtCore.QObject.connect(self.cboCurveType, QtCore.SIGNAL("clicked()"), self.cboCurveType_currentIndexChanged)
         self.cboCurveType.currentIndexChanged.connect(self.cboCurveType_currentIndexChanged)
         self.btnSave.clicked.connect(self.save_curve_data)
         self.btnLoad.clicked.connect(self.load_curve_data)
@@ -35,7 +34,7 @@ class frmCurveEditor(QtGui.QMainWindow, Ui_frmCurveEditor):
         self.project = main_form.project
         self.section = self.project.curves
         self.plot = CurvePlot(self.fraPlot, width=6, height=2, dpi=100)
-        layout = QtGui.QVBoxLayout(self.fraPlot)
+        layout = QtWidgets.QVBoxLayout(self.fraPlot)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.plot)
         self.fraPlot.setLayout(layout)
@@ -124,9 +123,9 @@ class frmCurveEditor(QtGui.QMainWindow, Ui_frmCurveEditor):
         point_count = -1
         for point in curve.curve_xy:
             point_count += 1
-            led = QtGui.QLineEdit(str(point[0]))
+            led = QtWidgets.QLineEdit(str(point[0]))
             self.tblMult.setItem(point_count, 0, QtGui.QTableWidgetItem(led.text()))
-            led = QtGui.QLineEdit(str(point[1]))
+            led = QtWidgets.QLineEdit(str(point[1]))
             self.tblMult.setItem(point_count, 1, QtGui.QTableWidgetItem(led.text()))
         #CurveGrid.RowCount= MAXPOINTS + 1
         #CurveID.MaxLength= MAXID; // Max.chars. in a ID
@@ -185,9 +184,9 @@ class frmCurveEditor(QtGui.QMainWindow, Ui_frmCurveEditor):
                         point_count = -1
                         for point in curve_xy:
                             point_count += 1
-                            led = QtGui.QLineEdit(str(point[0]))
+                            led = QtWidgets.QLineEdit(str(point[0]))
                             self.tblMult.setItem(point_count, 0, QtGui.QTableWidgetItem(led.text()))
-                            led = QtGui.QLineEdit(str(point[1]))
+                            led = QtWidgets.QLineEdit(str(point[1]))
                             self.tblMult.setItem(point_count, 1, QtGui.QTableWidgetItem(led.text()))
 
                         pass

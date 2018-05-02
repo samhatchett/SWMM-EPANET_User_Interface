@@ -566,7 +566,7 @@ class OutputObject(object):
             #return pd.Series(y_values, index=self.dates)
             return pd.Series(y_values, index=self.times)
         except Exception as ex:
-            print str(ex)
+            print(str(ex))
 
 
 class PumpEnergy:

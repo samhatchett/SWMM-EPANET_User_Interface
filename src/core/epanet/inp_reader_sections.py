@@ -143,7 +143,7 @@ class RuleReader():
         lines = new_text.replace(RuleReader.SECTION_NAME, '').strip().splitlines()
         if len(lines) > 0:
             first_line = lines[0]
-            if first_line[0] <> ' ':
+            if first_line[0] != ' ':
                 lines[0] = ' ' + lines[0]
             rules.value = '\n'.join(lines[0:])
         return rules
@@ -159,7 +159,7 @@ class ControlReader():
         lines = new_text.replace(ControlReader.SECTION_NAME, '').strip().splitlines()
         if len(lines) > 0:
             first_line = lines[0]
-            if first_line[0] <> ' ':
+            if first_line[0] != ' ':
                 lines[0] = ' ' + lines[0]
             controls.value = '\n'.join(lines[0:])
         return controls
@@ -797,4 +797,4 @@ class TagsReader(SectionReader):
                     if found:
                         break
                 if not found:
-                    print "Tag not applied: " + line
+                    print("Tag not applied: " + line)

@@ -32,7 +32,7 @@ class ObjectTreeView(QtWidgets.QTreeWidget):
         QtWidgets.QTreeWidget.__init__(self, parent)
         # self.setEditTriggers(QAbstractItemView.EditKeyPressed | QAbstractItemView.SelectedClicked)
         # self.setExpandsOnDoubleClick(False)
-        # QtCore.QObject.connect(self, QtCore.SIGNAL('itemDoubleClicked(QTreeWidgetItem, int)'), self.edit_options)
+        #QtCore.QObject.connect(self, QtCore.SIGNAL('itemDoubleClicked(QTreeWidgetItem, int)'), self.edit_options)
         # self.itemDoubleClicked.connect(self.edit_options)
         self.setHeaderHidden(True)
         self.setColumnCount(1)

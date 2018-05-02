@@ -41,7 +41,7 @@ class frmStorageUnits(frmGenericPropertyEditor):
                                           edit_these, new_item, "SWMM Storage Units Editor")
 
         for column in range(0, self.tblGeneric.columnCount()):
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in self.project.curves.value:

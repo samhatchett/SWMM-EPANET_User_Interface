@@ -4,19 +4,19 @@ import core.swmm.options.report
 from ui.SWMM.frmReportOptionsDesigner import Ui_frmReportOptions
 
 
-class frmReportOptions(QtGui.QMainWindow, Ui_frmReportOptions):
+class frmReportOptions(QtWidgets.QMainWindow, Ui_frmReportOptions):
     def __init__(self, main_form=None):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/reportingoptionsdialog.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.cmdNodeAll, QtCore.SIGNAL("clicked()"), self.cmdNodeAll_Clicked)
-        QtCore.QObject.connect(self.cmdNodeNone, QtCore.SIGNAL("clicked()"), self.cmdNodeNone_Clicked)
-        QtCore.QObject.connect(self.cmdLinksAll, QtCore.SIGNAL("clicked()"), self.cmdLinksAll_Clicked)
-        QtCore.QObject.connect(self.cmdLinksNone, QtCore.SIGNAL("clicked()"), self.cmdLinksNone_Clicked)
-        QtCore.QObject.connect(self.cmdSubcatchmentsAll, QtCore.SIGNAL("clicked()"), self.cmdSubcatchmentsAll_Clicked)
-        QtCore.QObject.connect(self.cmdSubcatchmentsNone, QtCore.SIGNAL("clicked()"), self.cmdSubcatchmentsNone_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdNodeAll, QtCore.SIGNAL("clicked()"), self.cmdNodeAll_Clicked)
+        #QtCore.QObject.connect(self.cmdNodeNone, QtCore.SIGNAL("clicked()"), self.cmdNodeNone_Clicked)
+        #QtCore.QObject.connect(self.cmdLinksAll, QtCore.SIGNAL("clicked()"), self.cmdLinksAll_Clicked)
+        #QtCore.QObject.connect(self.cmdLinksNone, QtCore.SIGNAL("clicked()"), self.cmdLinksNone_Clicked)
+        #QtCore.QObject.connect(self.cmdSubcatchmentsAll, QtCore.SIGNAL("clicked()"), self.cmdSubcatchmentsAll_Clicked)
+        #QtCore.QObject.connect(self.cmdSubcatchmentsNone, QtCore.SIGNAL("clicked()"), self.cmdSubcatchmentsNone_Clicked)
         self.set_from(main_form.project)
         self._main_form = main_form
 

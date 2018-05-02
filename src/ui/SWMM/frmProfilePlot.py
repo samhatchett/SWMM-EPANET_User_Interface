@@ -5,11 +5,11 @@ from ui.help import HelpHandler
 import core.swmm.hydraulics.node
 
 
-class frmProfilePlot(QtGui.QMainWindow, Ui_frmProfilePlot):
+class frmProfilePlot(QtWidgets.QMainWindow, Ui_frmProfilePlot):
     MAGIC = "SWMM_PROFILE_GRAPH_SPEC:\n"
 
     def __init__(self, main_form):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/profileplotoptionsdialog.htm"
         self._main_form = main_form
@@ -17,11 +17,11 @@ class frmProfilePlot(QtGui.QMainWindow, Ui_frmProfilePlot):
         self.cmdFind.setEnabled(False)  # TODO: Enable when functionality is ready
         self.cmdSave.setText("Copy")
         self.cmdUse.setText("Paste")
-        QtCore.QObject.connect(self.cmdSave, QtCore.SIGNAL("clicked()"), self.cmdSave_Clicked)
-        QtCore.QObject.connect(self.cmdUse, QtCore.SIGNAL("clicked()"), self.cmdUse_Clicked)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.cmdFind, QtCore.SIGNAL("clicked()"), self.cmdFind_Clicked)
+        #QtCore.QObject.connect(self.cmdSave, QtCore.SIGNAL("clicked()"), self.cmdSave_Clicked)
+        #QtCore.QObject.connect(self.cmdUse, QtCore.SIGNAL("clicked()"), self.cmdUse_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdFind, QtCore.SIGNAL("clicked()"), self.cmdFind_Clicked)
 
     def set_from(self, project, output):
         self.project = project
@@ -52,12 +52,12 @@ class frmProfilePlot(QtGui.QMainWindow, Ui_frmProfilePlot):
 
         current_node = start_node
         counter = 0
-        while current_node <> end_node and counter < 1000:
+        while current_node != end_node and counter < 1000:
             counter += 1
             for link_group in self.project.links_groups():
                 if link_group and link_group.value:
                     for link in link_group.value:
-                        if link.inlet_node == current_node and current_node <> end_node:
+                        if link.inlet_node == current_node and current_node != end_node:
                             self.lstData.addItem(link.name)
                             current_node = link.outlet_node
 

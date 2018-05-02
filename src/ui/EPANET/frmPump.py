@@ -35,7 +35,7 @@ class frmPump(frmGenericPropertyEditor):
 
         for column in range(0, self.tblGeneric.columnCount()):
             # pump curve
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in self.project.curves.value:
@@ -46,7 +46,7 @@ class frmPump(frmGenericPropertyEditor):
             self.tblGeneric.setCellWidget(5, column, combobox)
             # for pattern, show available patterns
             pattern_list = self.project.patterns.value
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in pattern_list:
@@ -56,7 +56,7 @@ class frmPump(frmGenericPropertyEditor):
             combobox.setCurrentIndex(selected_index)
             self.tblGeneric.setCellWidget(8, column, combobox)
             # Pumps can have a status of OPEN, CLOSED
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('OPEN')
             combobox.addItem('CLOSED')
             if edit_these[column].initial_status and (edit_these[column].initial_status.upper() == 'OPEN' or edit_these[column].initial_status == ''):
@@ -65,7 +65,7 @@ class frmPump(frmGenericPropertyEditor):
                 combobox.setCurrentIndex(1)
             self.tblGeneric.setCellWidget(9, column, combobox)
             # efficiency curve
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in self.project.curves.value:
@@ -74,7 +74,7 @@ class frmPump(frmGenericPropertyEditor):
             self.tblGeneric.setCellWidget(10, column, combobox)
             # for price pattern, show available patterns
             pattern_list = self.project.patterns.value
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in pattern_list:

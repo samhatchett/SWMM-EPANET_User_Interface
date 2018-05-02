@@ -39,8 +39,8 @@ class Ui_diagOptions(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(diagOptions)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), diagOptions.accept)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), diagOptions.reject)
+        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), diagOptions.accept)
+        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), diagOptions.reject)
         QtCore.QMetaObject.connectSlotsByName(diagOptions)
 
     def retranslateUi(self, diagOptions):

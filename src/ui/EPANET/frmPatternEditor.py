@@ -1,16 +1,15 @@
-import PyQt5.QtGui as QtGui
-import PyQt5.QtCore as QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 from ui.EPANET.frmPatternEditorDesigner import Ui_frmPatternEditor
 from core.epanet.patterns import Pattern
 
 
-class frmPatternEditor(QtGui.QMainWindow, Ui_frmPatternEditor):
+class frmPatternEditor(QtWidgets.QMainWindow, Ui_frmPatternEditor):
     def __init__(self, main_form, edit_these, new_item):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "epanet/src/src/Pattern_.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.selected_pattern_name = ''
         self._main_form = main_form
         self.project = main_form.project
@@ -34,7 +33,7 @@ class frmPatternEditor(QtGui.QMainWindow, Ui_frmPatternEditor):
         point_count = -1
         for point in pattern.multipliers:
             point_count += 1
-            led = QtGui.QLineEdit(str(point))
+            led = QtWidgets.QLineEdit(str(point))
             self.tblMult.setItem(0,point_count,QtGui.QTableWidgetItem(led.text()))
 
     def cmdOK_Clicked(self):

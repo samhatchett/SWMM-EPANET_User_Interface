@@ -3,7 +3,7 @@ os.environ['QT_API'] = 'pyqt'
 import sip
 for typ in ["QString","QVariant", "QDate", "QDateTime", "QTextStream", "QTime", "QUrl"]:
     sip.setapi(typ, 2)
-from cStringIO import StringIO
+from io import StringIO
 if sys.version_info >= (3,):
     unicode = str
 # from embed_ipython_new import EmbedIPython
@@ -16,9 +16,10 @@ from PyQt5.Qsci import QsciScintilla
 from ui.frmGenericPropertyEditor import frmGenericPropertyEditor
 from ui.help import HelpHandler
 from ui.model_utility import *
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
-from frmMainDesigner import Ui_frmMain
+from PyQt5.QtWidgets import *
+from ui.frmMainDesigner import Ui_frmMain
 #from IPython import embed
 #from RestrictedPython import compile_restricted
 #import py_compile
@@ -35,13 +36,13 @@ INSTALL_DIR = os.path.abspath(os.path.dirname('__file__'))
 INIT_MODULE = "__init__"
 MAX_RECENT_FILES = 8
 
-class frmMain(QtGui.QMainWindow, Ui_frmMain):
+class frmMain(QtWidgets.QMainWindow, Ui_frmMain):
 
     signalTimeChanged = QtCore.pyqtSignal()
     objectsSelected = QtCore.pyqtSignal(str, list)
 
     def __init__(self, q_application):
-        QtGui.QMainWindow.__init__(self, None)
+        QtWidgets.QMainWindow.__init__(self, None)
         self.crs = None
         self.project_settings = None
         self.no_items = True
@@ -125,7 +126,9 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         self.backdrop_name = ''
         try:
             # TODO: make sure this works on all platforms, both in dev environment and in our installed packages
-            orig_path = os.environ["Path"]
+            orig_path = os.environ.get("PATH")
+            if orig_path is None:
+                orig_path = ""
             print("Original Path = " + orig_path)
             search_paths = []
             install_dir_base = os.path.basename(INSTALL_DIR)
@@ -133,9 +136,9 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
                install_dir_base == "EPANET-UI" or \
                install_dir_base == "SWMM-UI":
                 search_paths.append(INSTALL_DIR)
-            if os.environ.has_key("QGIS_PREFIX_PATH"):
+            if "QGIS_PREFIX_PATH" in os.environ:
                 search_paths.append(os.environ.get("QGIS_PREFIX_PATH"))
-            if os.environ.has_key("QGIS_HOME"):
+            if "QGIS_HOME" in os.environ:
                 search_paths.append(os.environ.get("QGIS_HOME"))
             dirname = INSTALL_DIR
             package_dir = INSTALL_DIR + "\\dist\\" + self.model + "-UI"
@@ -152,7 +155,8 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
             search_paths.extend([r"C:\OSGeo4W64\apps\qgis",
                                  r"C:\OSGeo4W\apps\qgis",
                                  r"/usr",
-                                 r"/Applications/QGIS.app/Contents/MacOS"])
+                                 r"/Applications/QGIS.app/Contents/MacOS",
+                                 r"/Applications/QGIS3.app/Contents/MacOS"])
             for qgis_home in search_paths:
                 try:
                     print("Search " + qgis_home)
@@ -167,23 +171,26 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
                                          os.path.join(updir, r"/Python27/Scripts"),
                                          qgis_home]:
                             if os.path.isdir(add_path):
-                                path = add_path + ';' + path
-                        os.environ["Path"] = path
-                        print("Try path = " + os.environ["Path"])
+                                path = add_path + ':' + path
+                        os.environ["PATH"] = path
+                        print("Try path = " + os.environ["PATH"])
                         from qgis.core import QgsApplication, QgsVectorLayer
                         from qgis.gui import QgsMapCanvas
-                        from map_tools import EmbedMap, LegendMenuProvider
+                        from ui.map_tools import EmbedMap, LegendMenuProvider
                         QgsApplication.setPrefixPath(qgis_home, True)
-                        QgsApplication.initQgis()
+                        QgsApplication.addLibraryPath('/Applications/QGIS.app/Contents/MacOS/Contents/Plugins')
+                        self.qgs = QgsApplication([],True)
+                        self.qgs.initQgis()
                         tmp_lyr = QgsVectorLayer("Point", "Test", "memory")
-                        if not tmp_lyr.dataProvider():
+                        if not tmp_lyr.isValid():
                             del tmp_lyr
                             raise Exception("Loading QGIS data provider failed.")
                         else:
                             del tmp_lyr
-                        self.canvas = QgsMapCanvas(self, 'mapCanvas')
+                        self.canvas = QgsMapCanvas(self)
+                        self.canvas.setObjectName('map_canvas')
                         self.canvas.setMouseTracking(True)
-                        self.canvas.mapRenderer().setProjectionsEnabled(True)
+                        # self.canvas.mapRenderer().setProjectionsEnabled(True)
                         self.map_widget = EmbedMap(session=self, canvas=self.canvas, main_form=self)
                         self.map_win = self.map.addSubWindow(self.map_widget, QtCore.Qt.Widget)
                         self.select_region_checked = False
@@ -222,7 +229,6 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
                             self.gis_layer_model = QgsLayerTreeModel(self.gis_layer_root)
                             self.gis_layer_model.setFlag(QgsLayerTreeModel.AllowNodeReorder)
                             self.gis_layer_model.setFlag(QgsLayerTreeModel.AllowLegendChangeState)
-                            self.gis_layer_model.setFlag(QgsLayerTreeModel.AllowSymbologyChangeState)
                             self.gis_layer_model.setFlag(QgsLayerTreeModel.AllowNodeChangeVisibility)
                             self.gis_layer_model.setFlag(QgsLayerTreeModel.AllowNodeRename)
                             self.gis_layer_tree = QgsLayerTreeView()
@@ -241,11 +247,11 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
                 except Exception as e1:
                     msg = "Did not load QGIS from " + qgis_home + " (" + str(e1) + ")\n" # + str(traceback.print_exc())
                     print(msg)
-                    break
+                    # break
                     # QMessageBox.information(None, "Error Initializing Map", msg, QMessageBox.Ok)
         except Exception as eImport:
             self.canvas = None
-            print str(eImport) + str(traceback.print_exc())
+            print(str(eImport) + str(traceback.print_exc()))
         if not self.canvas:
             self.map_widget = None
             print("QGIS libraries not found, Not creating map\n")
@@ -303,7 +309,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         self.undo_stack = QUndoStack(self)
         # self.undo_view = QUndoView(self.undo_stack)
 
-        self.action_undo = QtGui.QAction(self)
+        self.action_undo = QtWidgets.QAction(self)
         self.action_undo.setObjectName("actionUndo")
         self.action_undo.setText(transl8("frmMain", "Undo", None) )
         self.action_undo.setToolTip(transl8("frmMain", "Undo the most recent edit", None))
@@ -311,7 +317,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         self.menuEdit.addAction(self.action_undo)
         self.action_undo.triggered.connect(self.undo)
 
-        self.action_redo = QtGui.QAction(self)
+        self.action_redo = QtWidgets.QAction(self)
         self.action_redo.setObjectName("actionRedo")
         self.action_redo.setText(transl8("frmMain", "Redo", None) )
         self.action_redo.setToolTip(transl8("frmMain", "Redo the most recent Undo", None) )
@@ -378,7 +384,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
                                 QMessageBox.Ok)
 
     def import_from_gis(self):
-        import import_export
+        import ui.import_export
 
         file_filter = "GeoJSON (*.json *.geojson);;"  \
                       "All files (*.*)"
@@ -392,10 +398,10 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
                 self.program_settings.setValue("GISPath", path_only)
                 self.program_settings.sync()
 
-            import_export.import_from_gis(self, file_name)
+            ui.import_export.import_from_gis(self, file_name)
 
     def export_to_gis(self):
-        import import_export
+        import ui.import_export
 
         file_filter = "GeoJSON (*.json);;" \
                       "Shapefile (*.shp);;" \
@@ -403,15 +409,14 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
                       "All files (*.*)"
         directory = self.program_settings.value("GISPath", os.path.dirname(self.project.file_name))
 
-        file_name = QtGui.QFileDialog.getSaveFileName(self, "Export to GIS",
-                                                      directory, file_filter)
+        file_name = QtWidgets.QFileDialog.getSaveFileName(self, "Export to GIS", directory, file_filter)
         if file_name:
             path_only, file_only = os.path.split(file_name)
             if path_only != directory:  # Save path as default for next import/export operation
                 self.program_settings.setValue("GISPath", path_only)
                 self.program_settings.sync()
 
-            import_export.export_to_gis(self, file_name)
+            ui.import_export.export_to_gis(self, file_name)
 
     # def tabProjMapChanged(self, index):
     #     if index == 1:
@@ -421,7 +426,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
 
     def saveMapAsImage(self):
         directory = self.program_settings.value("ProjectDir", "")
-        file_name = QtGui.QFileDialog.getSaveFileName(self, "Save Map As...", directory,
+        file_name = QFileDialog.getSaveFileName(self, "Save Map As...", directory,
                                                             "PNG Files (*.png);;All files (*.*)")
         if file_name:
             self.canvas.saveAsImage(file_name)
@@ -432,10 +437,10 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
     def redo(self):
         self.undo_stack.redo()
 
-    class _AddItem(QtGui.QUndoCommand):
+    class _AddItem(QUndoCommand):
         """Private class that adds an item to the model and the map. Accessed via add_item method."""
         def __init__(self, session, item):
-            QtGui.QUndoCommand.__init__(self, "Add " + str(item))
+            QUndoCommand.__init__(self, "Add " + str(item))
             self.session = session
             self.item = item
             self.added_id = None
@@ -498,7 +503,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
             if self.isSubLink:
                 #swap out link item and section types
                 #self.layer = self.session.model_layers.layer_by_name("sublinks")
-                for obj_type, lyr_name in self.session.section_types.iteritems():
+                for obj_type, lyr_name in self.session.section_types.items():
                     if lyr_name == "sublinks":
                         in_node = self.item.inlet_node
                         out_node = self.item.outlet_node
@@ -565,7 +570,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
 
                         #add centroid item
                         c_item = None
-                        for obj_type, lyr_name in self.session.section_types.iteritems():
+                        for obj_type, lyr_name in self.session.section_types.items():
                             if lyr_name == "subcentroids":
                                 c_item = obj_type()
                                 c_item.x = str(pt.x())
@@ -655,10 +660,10 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
     def add_item(self, new_item):
         self.undo_stack.push(self._AddItem(self, new_item))
 
-    class _DeleteItem(QtGui.QUndoCommand):
+    class _DeleteItem(QUndoCommand):
         """Private class that removes an item from the model and the map. Accessed via delete_item method."""
         def __init__(self, session, item):
-            QtGui.QUndoCommand.__init__(self, "Delete " + str(item))
+            QUndoCommand.__init__(self, "Delete " + str(item))
             self.session = session
             self.item = item
             section_field_name = session.section_types[type(item)]
@@ -795,10 +800,10 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
     def delete_item(self, item):
         self.undo_stack.push(self._DeleteItem(self, item))
 
-    class _MoveSelectedItems(QtGui.QUndoCommand):
+    class _MoveSelectedItems(QUndoCommand):
         """Private class that removes an item from the model and the map. Accessed via delete_item method."""
         def __init__(self, session, layer, dx, dy):
-            QtGui.QUndoCommand.__init__(self, "Move " + str(dx) + ", " + str(dy))
+            QUndoCommand.__init__(self, "Move " + str(dx) + ", " + str(dy))
             self.session = session
             self.layer = layer
             self.dx = dx
@@ -980,10 +985,10 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
             self.undo_stack.push(self._MoveSelectedItems(self, layer, dx, dy))
 
 
-    class _MoveVertex(QtGui.QUndoCommand):
+    class _MoveVertex(QUndoCommand):
         """Private class that removes an item from the model and the map. Accessed via delete_item method."""
         def __init__(self, session, layer, feature, point_index, from_x, from_y, to_x, to_y):
-            QtGui.QUndoCommand.__init__(self, "Move Vertex " + str(point_index) +
+            QUndoCommand.__init__(self, "Move Vertex " + str(point_index) +
                                         " from " + str(from_x) + ", " + str(from_y) +
                                         " to " + str(to_x) + ", " + str(to_y))
             self.session = session
@@ -1291,7 +1296,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
 
     def setQgsMapTool(self):
         if self.canvas:
-            from map_tools import AddPointTool, AddLinkTool, CaptureTool
+            from ui.map_tools import AddPointTool, AddLinkTool, CaptureTool
             self.map_widget.setZoomInMode()
             self.map_widget.setZoomOutMode()
             self.map_widget.setPanMode()
@@ -1314,10 +1319,10 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         self.map_widget.setAddFeatureMode()
 
     def onGeometryAdded(self):
-        print 'Geometry Added'
+        print('Geometry Added')
 
     def onGeometryChanged(self):
-        print 'Geometry Changed'
+        print('Geometry Changed')
 
     # def mouseMoveEvent(self, event):
     #     pass
@@ -1405,7 +1410,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         self.actionStdDeleteObject.triggered.connect(self.delete_object_clicked)
         self.actionStdMapDimensions.triggered.connect(self.configMapDimensions)
 
-        layout = QtGui.QVBoxLayout(self.tabProject)
+        layout = QtWidgets.QVBoxLayout(self.tabProject)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.obj_tree)
         self.tabProject.setLayout(layout)
@@ -1449,7 +1454,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         if self.plugins:
             menu = self.menuPlugins
             for p in self.plugins:
-                lnew_action = QtGui.QAction(p['name'], menu)
+                lnew_action = QtWidgets.QAction(p['name'], menu)
                 lnew_action.setCheckable(True)
                 menu.addAction(lnew_action)
                 lnew_action.triggered.connect(self.run_tier1_plugin)
@@ -1500,7 +1505,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         new_custom_menu = self.menubar.addMenu(plugin.plugin_name)
         new_custom_menu.menuTag = 'plugin_mainmenu_' + plugin.plugin_name
         for m in plugin.__all__:
-            new_action = QtGui.QAction(m, self)
+            new_action = QtWidgets.QAction(m, self)
             new_action.setStatusTip(m)
             new_action.setData(plugin.plugin_name + '|' + m)
             new_action.setCheckable(False)
@@ -1667,7 +1672,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         menus = []
         parent_menu.addSeparator()
         for i in range(MAX_RECENT_FILES):
-            action = QtGui.QAction(self, visible=False, triggered=callback)
+            action = QtWidgets.QAction(self, visible=False, triggered=callback)
             # if parent_menu is not self.menuScripting:
             #     action.setShortcut(QKeySequence("Ctrl+" + str(i+1)))
             menus.append(action)
@@ -1759,7 +1764,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
 
     def show_edit_window(self, window):
         if window:
-            print "Show edit window " + str(window)
+            print("Show edit window " + str(window))
             self._forms.append(window)
             # window.destroyed.connect(lambda s, e, a: self._forms.remove(s))
             # window.destroyed = lambda s, e, a: self._forms.remove(s)
@@ -1915,7 +1920,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
 
     def open_project(self):
         directory = self.program_settings.value("ProjectDir", "")
-        file_name = QtGui.QFileDialog.getOpenFileName(self, "Open Project...", directory,
+        file_name = QtWidgets.QFileDialog.getOpenFileName(self, "Open Project...", directory,
                                                       "Inp files (*.inp);;All files (*.*)")
         if file_name:
             self.add_recent_project(file_name)
@@ -1991,7 +1996,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
             self.crs = crs
             try:
                 self.txtCrs.setText(crs.authid())
-                self.map_widget.canvas.mapRenderer().setDestinationCrs(crs)
+                self.map_widget.canvas.setDestinationCrs(crs)
                 self.map_widget.map_linear_unit = self.map_widget.QGis_UnitType[self.crs.mapUnits()]
                 crs_id = 0
                 for mlayer in self.model_layers.all_layers:
@@ -2195,7 +2200,7 @@ class frmMain(QtGui.QMainWindow, Ui_frmMain):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_3.setContentsMargins(1, 2, 1, 3)
-        self.listViewObjects.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
+        self.listViewObjects.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         if len(self.listViewObjects.selectedIndexes()) > 0:
             self.actionStdEditObject.setEnabled(True)
             self.actionStdDeleteObject.setEnabled(True)
@@ -2352,7 +2357,7 @@ class ModelLayers:
                lyr_name.lower().startswith("subcentroid") or
                lyr_name.lower().startswith("sublink")):
                 continue
-            if self.selected_model_ids.has_key(lyr_name):
+            if lyr_name in self.selected_model_ids:
                 if isinstance(self.selected_model_ids[lyr_name], list):
                     del self.selected_model_ids[lyr_name][:]
                 else:
@@ -2364,7 +2369,7 @@ class ModelLayers:
                 self.total_selected = self.total_selected + 1
 
 def print_process_id():
-    print 'Process ID is:', os.getpid()
+    print('Process ID is:', os.getpid())
 
 if __name__ == '__main__':
     application = QtGui.QGuiApplication(sys.argv)

@@ -33,15 +33,15 @@ StatsText = \
      '  Std. Deviation ....... %.3f',
      '  Skewness Coeff. ...... %.3f')
 
-class frmStatisticsReport(QtGui.QMainWindow, Ui_frmStatisticsReport):
+class frmStatisticsReport(QtWidgets.QMainWindow, Ui_frmStatisticsReport):
 
     def __init__(self, main_form):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/viewingastatisticsreport.htm"
         self.helper = HelpHandler(self)
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         # self.set_from(parent.project)
         self._main_form = main_form
         self.stats = None
@@ -497,8 +497,8 @@ class MyHistogram(FigureCanvas):
 
 
         FigureCanvas.setSizePolicy(self,
-                                   QtGui.QSizePolicy.Expanding,
-                                   QtGui.QSizePolicy.Expanding)
+                                   QtWidgets.QSizePolicy.Expanding,
+                                   QtWidgets.QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
 
     def setData(self, aData, aBins=None):
@@ -545,8 +545,8 @@ class MyFrequencyPlot(FigureCanvas):
         self.setParent(main_form)
 
         FigureCanvas.setSizePolicy(self,
-                                   QtGui.QSizePolicy.Expanding,
-                                   QtGui.QSizePolicy.Expanding)
+                                   QtWidgets.QSizePolicy.Expanding,
+                                   QtWidgets.QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
 
     def setData(self, aData, aBins=None):

@@ -11,13 +11,13 @@ class frmLandUseAssignment(frmGenericPropertyEditor):
 
     def __init__(self, main_form, subcatchment_name):
         # purposely not calling frmGenericPropertyEditor.__init__
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/landuseassignmenteditor.htm"
         self.setupUi(self)
         self.subcatchment_name = subcatchment_name
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.setWindowTitle('SWMM Land Use Assignment for Subcatchment ' + subcatchment_name)
         self.lblNotes.setText('')
         self.tblGeneric.setColumnCount(1)
@@ -40,7 +40,7 @@ class frmLandUseAssignment(frmGenericPropertyEditor):
             land_use_count += 1
             for coverage in coverage_list:
                 if coverage.subcatchment_name == subcatchment_name and coverage.land_use_name == land_use:
-                    led = QtGui.QLineEdit(str(coverage.percent_subcatchment_area))
+                    led = QtWidgets.QLineEdit(str(coverage.percent_subcatchment_area))
                     self.tblGeneric.setItem(land_use_count,0,QtGui.QTableWidgetItem(led.text()))
         self._main_form = main_form
 

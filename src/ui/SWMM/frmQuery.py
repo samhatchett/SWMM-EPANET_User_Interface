@@ -9,10 +9,10 @@ import core.swmm.hydrology.subcatchment as sub
 import core.swmm.hydrology.lidcontrol as lid
 
 
-class frmQuery(QtGui.QMainWindow, Ui_frmQuery):
+class frmQuery(QtWidgets.QMainWindow, Ui_frmQuery):
 
     def __init__(self, session, project):
-        QtGui.QMainWindow.__init__(self, session)
+        QtWidgets.QMainWindow.__init__(self, session)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/Submitti.htm"
         self.setupUi(self)
@@ -42,7 +42,7 @@ class frmQuery(QtGui.QMainWindow, Ui_frmQuery):
         self.cboAbove.addItem('Equal To')
         self.cboAbove.addItem('Above')
 
-        QtCore.QObject.connect(self.cmdSubmit, QtCore.SIGNAL("clicked()"), self.cmdSubmit_Clicked)
+        #QtCore.QObject.connect(self.cmdSubmit, QtCore.SIGNAL("clicked()"), self.cmdSubmit_Clicked)
 
     def cboFind_Changed(self):
         # Changes list of map display variables to choose

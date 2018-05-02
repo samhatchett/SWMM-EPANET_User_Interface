@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QTranslator
-from PyQt5.QtGui import QInputDialog
+from PyQt5.QtWidgets import QInputDialog
 from ui.translations_rc import *
 
 

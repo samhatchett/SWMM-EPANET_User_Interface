@@ -5,17 +5,17 @@ from core.swmm.hydrology.lidcontrol import LIDType
 from ui.SWMM.frmLIDUsageDesigner import Ui_frmLIDUsage
 
 
-class frmLIDUsage(QtGui.QMainWindow, Ui_frmLIDUsage):
+class frmLIDUsage(QtWidgets.QMainWindow, Ui_frmLIDUsage):
 
     def __init__(self, main_form=None):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/lidusageeditor.htm"
         self.units = main_form.project.options.flow_units.value
         self.setupUi(self)
         self._main_form = main_form
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.cboLIDControl.currentIndexChanged.connect(self.cboLIDControl_currentIndexChanged)
         self.spxUnits.valueChanged.connect(self.spxUnits_valueChanged)
         self.txtArea.textChanged.connect(self.txtArea_textChanged)

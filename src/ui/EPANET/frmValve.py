@@ -36,7 +36,7 @@ class frmValve(frmGenericPropertyEditor):
 
         for column in range(0, self.tblGeneric.columnCount()):
             # Valves can have a status of NONE, OPEN, CLOSED
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('NONE')
             combobox.addItem('OPEN')
             combobox.addItem('CLOSED')

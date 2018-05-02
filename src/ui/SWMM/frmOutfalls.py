@@ -40,7 +40,7 @@ class frmOutfalls(frmGenericPropertyEditor):
 
         for column in range(0, self.tblGeneric.columnCount()):
             # for tide gate, show true/false
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('YES')
             combobox.addItem('NO')
             if edit_these[column].tide_gate:
@@ -53,7 +53,7 @@ class frmOutfalls(frmGenericPropertyEditor):
             # for curves, show available curves
             curves_section = self.project.find_section("CURVES")
             curves_list = curves_section.value[0:]
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('*')
             selected_index = 0
             for value in curves_list:
@@ -68,7 +68,7 @@ class frmOutfalls(frmGenericPropertyEditor):
             # for time series, show available timeseries
             timeseries_section = self.project.find_section("TIMESERIES")
             timeseries_list = timeseries_section.value[0:]
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('*')
             selected_index = 0
             for value in timeseries_list:

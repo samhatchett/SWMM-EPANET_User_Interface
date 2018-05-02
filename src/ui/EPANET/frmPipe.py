@@ -35,7 +35,7 @@ class frmPipe(frmGenericPropertyEditor):
 
         for column in range(0, self.tblGeneric.columnCount()):
             # Pipes can have a status of OPEN, CLOSED, or CV.
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('OPEN')
             combobox.addItem('CLOSED')
             combobox.addItem('CV')

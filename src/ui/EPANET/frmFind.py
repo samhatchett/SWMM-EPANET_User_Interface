@@ -4,10 +4,10 @@ from ui.help import HelpHandler
 from frmFindDesigner import Ui_frmFind
 
 
-class frmFind(QtGui.QMainWindow, Ui_frmFind):
+class frmFind(QtWidgets.QMainWindow, Ui_frmFind):
 
     def __init__(self, session, project):
-        QtGui.QMainWindow.__init__(self, session)
+        QtWidgets.QMainWindow.__init__(self, session)
         self.helper = HelpHandler(self)
         self.help_topic = "epanet/src/src/Finding_.htm"
         self.setupUi(self)
@@ -15,11 +15,11 @@ class frmFind(QtGui.QMainWindow, Ui_frmFind):
         self.project = project
         self.rbnNode.setChecked(True)
         self.gbxAdjacent.setTitle("Adjacent Links")
-        QtCore.QObject.connect(self.rbnNode, QtCore.SIGNAL("clicked()"), self.rbn_Clicked)
-        QtCore.QObject.connect(self.rbnLink, QtCore.SIGNAL("clicked()"), self.rbn_Clicked)
-        QtCore.QObject.connect(self.rbnSources, QtCore.SIGNAL("clicked()"), self.rbn_Clicked)
-        QtCore.QObject.connect(self.cmdFind, QtCore.SIGNAL("clicked()"), self.cmdFind_Clicked)
-        # QtCore.QObject.connect(self.lstAdjacent, QtCore.SIGNAL("clicked()"), self.lstAdjacent_Clicked)
+        #QtCore.QObject.connect(self.rbnNode, QtCore.SIGNAL("clicked()"), self.rbn_Clicked)
+        #QtCore.QObject.connect(self.rbnLink, QtCore.SIGNAL("clicked()"), self.rbn_Clicked)
+        #QtCore.QObject.connect(self.rbnSources, QtCore.SIGNAL("clicked()"), self.rbn_Clicked)
+        #QtCore.QObject.connect(self.cmdFind, QtCore.SIGNAL("clicked()"), self.cmdFind_Clicked)
+        #QtCore.QObject.connect(self.lstAdjacent, QtCore.SIGNAL("clicked()"), self.lstAdjacent_Clicked)
         self.lstAdjacent.currentItemChanged.connect(self.lstAdjacent_Clicked)
         self.lstAdjacent.itemSelectionChanged.connect(self.lstAdjacent_Clicked)
 

@@ -1,25 +1,24 @@
-import PyQt5.QtGui as QtGui
-import PyQt5.QtCore as QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 from ui.help import HelpHandler
 from ui.EPANET.frmEnergyReportDesigner import Ui_frmEnergyReport
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
-class frmEnergyReport(QtGui.QMainWindow, Ui_frmEnergyReport):
+class frmEnergyReport(QtWidgets.QMainWindow, Ui_frmEnergyReport):
 
     def __init__(self, main_form):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "epanet/src/src/Energy_R.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.rbnUtilization, QtCore.SIGNAL("clicked()"), self.rbnUtilization_Clicked)
-        QtCore.QObject.connect(self.rbnAverageKw, QtCore.SIGNAL("clicked()"), self.rbnAverageKw_Clicked)
-        QtCore.QObject.connect(self.rbnCost, QtCore.SIGNAL("clicked()"), self.rbnCost_Clicked)
-        QtCore.QObject.connect(self.rbnEfficiency, QtCore.SIGNAL("clicked()"), self.rbnEfficiency_Clicked)
-        QtCore.QObject.connect(self.rbnKwHr, QtCore.SIGNAL("clicked()"), self.rbnKwHr_Clicked)
-        QtCore.QObject.connect(self.rbnPeakKw, QtCore.SIGNAL("clicked()"), self.rbnPeakKw_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.rbnUtilization, QtCore.SIGNAL("clicked()"), self.rbnUtilization_Clicked)
+        #QtCore.QObject.connect(self.rbnAverageKw, QtCore.SIGNAL("clicked()"), self.rbnAverageKw_Clicked)
+        #QtCore.QObject.connect(self.rbnCost, QtCore.SIGNAL("clicked()"), self.rbnCost_Clicked)
+        #QtCore.QObject.connect(self.rbnEfficiency, QtCore.SIGNAL("clicked()"), self.rbnEfficiency_Clicked)
+        #QtCore.QObject.connect(self.rbnKwHr, QtCore.SIGNAL("clicked()"), self.rbnKwHr_Clicked)
+        #QtCore.QObject.connect(self.rbnPeakKw, QtCore.SIGNAL("clicked()"), self.rbnPeakKw_Clicked)
         self._main_form = main_form
         self.labels = []
         self.utilization_values = []
@@ -54,37 +53,37 @@ class frmEnergyReport(QtGui.QMainWindow, Ui_frmEnergyReport):
             self.tableWidget.setVerticalHeaderItem(row,QtGui.QTableWidgetItem('Pump ' + item))
             self.labels.append('Pump ' + item)
 
-            led = QtGui.QLineEdit(format(this_pump.utilization,'0.2f'))
+            led = QtWidgets.QLineEdit(format(this_pump.utilization,'0.2f'))
             led.setReadOnly(True)
             led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
             self.tableWidget.setItem(row, 0, QtGui.QTableWidgetItem(led.text()))
             self.utilization_values.append(this_pump.utilization)
 
-            led = QtGui.QLineEdit(format(this_pump.efficiency,'0.2f'))
+            led = QtWidgets.QLineEdit(format(this_pump.efficiency,'0.2f'))
             led.setReadOnly(True)
             led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
             self.tableWidget.setItem(row, 1, QtGui.QTableWidgetItem(led.text()))
             self.efficiency_values.append(this_pump.efficiency)
 
-            led = QtGui.QLineEdit(format(this_pump.kw_per_flow,'0.2f'))
+            led = QtWidgets.QLineEdit(format(this_pump.kw_per_flow,'0.2f'))
             led.setReadOnly(True)
             led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
             self.tableWidget.setItem(row, 2, QtGui.QTableWidgetItem(led.text()))
             self.kw_values.append(this_pump.kw_per_flow)
 
-            led = QtGui.QLineEdit(format(this_pump.average_kw,'0.2f'))
+            led = QtWidgets.QLineEdit(format(this_pump.average_kw,'0.2f'))
             led.setReadOnly(True)
             led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
             self.tableWidget.setItem(row, 3, QtGui.QTableWidgetItem(led.text()))
             self.average_kw_values.append(this_pump.average_kw)
 
-            led = QtGui.QLineEdit(format(this_pump.peak_kw,'0.2f'))
+            led = QtWidgets.QLineEdit(format(this_pump.peak_kw,'0.2f'))
             led.setReadOnly(True)
             led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
             self.tableWidget.setItem(row, 4, QtGui.QTableWidgetItem(led.text()))
             self.peak_kw_values.append(this_pump.peak_kw)
 
-            led = QtGui.QLineEdit(format(this_pump.cost_per_day,'0.2f'))
+            led = QtWidgets.QLineEdit(format(this_pump.cost_per_day,'0.2f'))
             led.setReadOnly(True)
             led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
             self.tableWidget.setItem(row, 5, QtGui.QTableWidgetItem(led.text()))
@@ -94,14 +93,14 @@ class frmEnergyReport(QtGui.QMainWindow, Ui_frmEnergyReport):
             demand_charge = demand_charge + (this_pump.peak_kw * float(project.energy.demand_charge))
 
         self.tableWidget.setVerticalHeaderItem(row+1,QtGui.QTableWidgetItem('Total Cost'))
-        led = QtGui.QLineEdit(format(cost_sum,'0.2f'))
+        led = QtWidgets.QLineEdit(format(cost_sum,'0.2f'))
         led.setReadOnly(True)
         led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
         self.tableWidget.setItem(row+1, 5, QtGui.QTableWidgetItem(led.text()))
 
         # demand is peak kw * demand charge
         self.tableWidget.setVerticalHeaderItem(row+2,QtGui.QTableWidgetItem('Demand Charge'))
-        led = QtGui.QLineEdit(format(demand_charge,'0.2f'))
+        led = QtWidgets.QLineEdit(format(demand_charge,'0.2f'))
         led.setReadOnly(True)
         led.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
         self.tableWidget.setItem(row+2, 5, QtGui.QTableWidgetItem(led.text()))
@@ -190,6 +189,6 @@ class MyMplCanvas(FigureCanvas):
         self.setParent(main_form)
 
         FigureCanvas.setSizePolicy(self,
-                                   QtGui.QSizePolicy.Expanding,
-                                   QtGui.QSizePolicy.Expanding)
+                                   QtWidgets.QSizePolicy.Expanding,
+                                   QtWidgets.QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)

@@ -8,8 +8,8 @@ class frmProgram(QtGui.QDialog):
         self.model = ''
         self.ui = Ui_program()
         self.ui.setupUi(self)
-        QtCore.QObject.connect(self.ui.btnEPANET, QtCore.SIGNAL('clicked()'), self.select_program_epanet)
-        QtCore.QObject.connect(self.ui.btnSWMM, QtCore.SIGNAL('clicked()'), self.select_program_swmm)
+        #QtCore.QObject.connect(self.ui.btnEPANET, QtCore.SIGNAL('clicked()'), self.select_program_epanet)
+        #QtCore.QObject.connect(self.ui.btnSWMM, QtCore.SIGNAL('clicked()'), self.select_program_swmm)
 
     def select_program_epanet(self):
         self.model = 'EPANET'

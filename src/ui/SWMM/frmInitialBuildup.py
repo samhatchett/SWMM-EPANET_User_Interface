@@ -11,14 +11,14 @@ class frmInitialBuildup(frmGenericPropertyEditor):
 
     def __init__(self, main_form, subcatchment_name):
         # purposely not calling frmGenericPropertyEditor.__init__
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/initialbuildupeditor.htm"
         self.units = main_form.project.options.flow_units.value
         self.setupUi(self)
         self.subcatchment_name = subcatchment_name
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.setWindowTitle('SWMM Initial Buildup Editor for Subcatchment ' + subcatchment_name)
         self.lblNotes.setText("Enter initial buildup of pollutants on Subcatchment " + subcatchment_name)
         self.tblGeneric.setColumnCount(1)
@@ -45,7 +45,7 @@ class frmInitialBuildup(frmGenericPropertyEditor):
             pollutant_count += 1
             for loading in loadings_list:
                 if loading.subcatchment_name == subcatchment_name and loading.pollutant_name == pollutant:
-                    led = QtGui.QLineEdit(str(loading.initial_buildup))
+                    led = QtWidgets.QLineEdit(str(loading.initial_buildup))
                     self.tblGeneric.setItem(pollutant_count,0,QtGui.QTableWidgetItem(led.text()))
         self._main_form = main_form
 

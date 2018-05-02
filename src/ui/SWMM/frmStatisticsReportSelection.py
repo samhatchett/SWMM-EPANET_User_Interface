@@ -8,15 +8,15 @@ from ui.SWMM.frmStatisticsReport import frmStatisticsReport
 from ui.help import HelpHandler
 import Externals.swmm.outputapi.SMOutputWrapper as SMO
 
-class frmStatisticsReportSelection(QtGui.QMainWindow, Ui_frmStatisticsReportSelection):
+class frmStatisticsReportSelection(QtWidgets.QMainWindow, Ui_frmStatisticsReportSelection):
 
     def __init__(self, main_form):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/statisticsselectiondialog.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
 
         self._main_form = main_form
         self.cboCategory.addItems(["Subcatchment", "Node", "Link", "System"])

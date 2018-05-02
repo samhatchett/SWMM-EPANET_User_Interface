@@ -7,19 +7,19 @@ from core.swmm.hydrology.lidcontrol import LIDType
 from core.swmm.hydrology.subcatchment import LIDUsage
 
 
-class frmLIDControls(QtGui.QMainWindow, Ui_frmLIDControls):
+class frmLIDControls(QtWidgets.QMainWindow, Ui_frmLIDControls):
 
     def __init__(self, main_form, subcatchment_name):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/lidgroupeditor.htm"
         self.units = main_form.project.options.flow_units.value
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.btnAdd, QtCore.SIGNAL("clicked()"), self.btnAdd_Clicked)
-        QtCore.QObject.connect(self.btnEdit, QtCore.SIGNAL("clicked()"), self.btnEdit_Clicked)
-        QtCore.QObject.connect(self.btnDelete, QtCore.SIGNAL("clicked()"), self.btnDelete_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.btnAdd, QtCore.SIGNAL("clicked()"), self.btnAdd_Clicked)
+        #QtCore.QObject.connect(self.btnEdit, QtCore.SIGNAL("clicked()"), self.btnEdit_Clicked)
+        #QtCore.QObject.connect(self.btnDelete, QtCore.SIGNAL("clicked()"), self.btnDelete_Clicked)
         self._main_form = main_form
         # set for first subcatchment for now
         self.subcatchment_name = subcatchment_name

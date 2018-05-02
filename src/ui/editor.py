@@ -8,9 +8,9 @@ from PyQt5.QtGui import QMessageBox
 ICON_FOLDER = "icons/editor/"
 MAX_RECENT_FILES = 8
 
-class EditorWindow(QtGui.QMainWindow):
+class EditorWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None, session=None):
-        QtGui.QMainWindow.__init__(self, parent)
+        QtWidgets.QMainWindow.__init__(self, parent)
         self.file_name = ''
         self.saved_text = ''
         self.session = session
@@ -20,61 +20,61 @@ class EditorWindow(QtGui.QMainWindow):
 
     def initToolbar(self):
 
-        self.newAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "new.png")), "New", self)
+        self.newAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "new.png")), "New", self)
         self.newAction.setShortcut("Ctrl+N")
         self.newAction.setStatusTip("Create a new script from scratch.")
         self.newAction.triggered.connect(self.new)
 
-        self.runAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "play.png")), "Run", self)
+        self.runAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "play.png")), "Run", self)
         # self.playAction.setShortcut("Ctrl+N")
         self.runAction.setStatusTip("Run this script")
         self.runAction.triggered.connect(self.run)
 
-        self.openAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "open.png")), "Open file", self)
+        self.openAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "open.png")), "Open file", self)
         self.openAction.setStatusTip("Open existing script")
         self.openAction.setShortcut("Ctrl+O")
         self.openAction.triggered.connect(self.open)
 
-        self.saveAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "save.png")), "Save", self)
+        self.saveAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "save.png")), "Save", self)
         self.saveAction.setStatusTip("Save script")
         self.saveAction.setShortcut("Ctrl+S")
         self.saveAction.triggered.connect(self.save)
 
-        self.saveAsAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "save.png")), "Save As...", self)
+        self.saveAsAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "save.png")), "Save As...", self)
         self.saveAsAction.setStatusTip("Save script as...")
         self.saveAsAction.triggered.connect(self.save_as)
 
-        self.printAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "print.png")), "Print script", self)
+        self.printAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "print.png")), "Print script", self)
         self.printAction.setStatusTip("Print script")
         self.printAction.setShortcut("Ctrl+P")
         self.printAction.triggered.connect(self.printHandler)
 
-        self.previewAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "preview.png")), "Page view", self)
+        self.previewAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "preview.png")), "Page view", self)
         self.previewAction.setStatusTip("Preview page before printing")
         self.previewAction.setShortcut("Ctrl+Shift+P")
         self.previewAction.triggered.connect(self.preview)
 
-        self.cutAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "cut.png")), "Cut to clipboard", self)
+        self.cutAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "cut.png")), "Cut to clipboard", self)
         self.cutAction.setStatusTip("Delete and copy text to clipboard")
         self.cutAction.setShortcut("Ctrl+X")
         self.cutAction.triggered.connect(self.text.cut)
 
-        self.copyAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "copy.png")), "Copy to clipboard", self)
+        self.copyAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "copy.png")), "Copy to clipboard", self)
         self.copyAction.setStatusTip("Copy text to clipboard")
         self.copyAction.setShortcut("Ctrl+C")
         self.copyAction.triggered.connect(self.text.copy)
 
-        self.pasteAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "paste.png")), "Paste from clipboard", self)
+        self.pasteAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "paste.png")), "Paste from clipboard", self)
         self.pasteAction.setStatusTip("Paste text from clipboard")
         self.pasteAction.setShortcut("Ctrl+V")
         self.pasteAction.triggered.connect(self.text.paste)
 
-        self.undoAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "undo.png")), "Undo last action", self)
+        self.undoAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "undo.png")), "Undo last action", self)
         self.undoAction.setStatusTip("Undo last action")
         self.undoAction.setShortcut("Ctrl+Z")
         self.undoAction.triggered.connect(self.text.undo)
 
-        self.redoAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "redo.png")), "Redo last undone thing", self)
+        self.redoAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "redo.png")), "Redo last undone thing", self)
         self.redoAction.setStatusTip("Redo last undone thing")
         self.redoAction.setShortcut("Ctrl+Y")
         self.redoAction.triggered.connect(self.text.redo)
@@ -128,11 +128,11 @@ class EditorWindow(QtGui.QMainWindow):
         except:
             pass
 
-        indentAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "indent.png")), "Indent Area", self)
+        indentAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "indent.png")), "Indent Area", self)
         indentAction.setShortcut("Ctrl+Tab")
         indentAction.triggered.connect(self.indent)
 
-        dedentAction = QtGui.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "dedent.png")), "Unindent Area", self)
+        dedentAction = QtWidgets.QAction(QtGui.QIcon(os.path.join(ICON_FOLDER, "dedent.png")), "Unindent Area", self)
         dedentAction.setShortcut("Shift+Tab")
         dedentAction.triggered.connect(self.dedent)
 
@@ -173,10 +173,10 @@ class EditorWindow(QtGui.QMainWindow):
         edit.addAction(self.pasteAction)
 
         # Toggling actions for the various bars
-        toolbarAction = QtGui.QAction("Toggle Toolbar", self)
+        toolbarAction = QtWidgets.QAction("Toggle Toolbar", self)
         toolbarAction.triggered.connect(self.toggleToolbar)
 
-        statusbarAction = QtGui.QAction("Toggle Statusbar", self)
+        statusbarAction = QtWidgets.QAction("Toggle Statusbar", self)
         statusbarAction.triggered.connect(self.toggleStatusbar)
 
         view.addAction(toolbarAction)
@@ -187,7 +187,7 @@ class EditorWindow(QtGui.QMainWindow):
         menus = []
         parent_menu.addSeparator()
         for i in range(MAX_RECENT_FILES):
-            action = QtGui.QAction(self, visible=False, triggered=callback)
+            action = QtWidgets.QAction(self, visible=False, triggered=callback)
             # if parent_menu is not self.menuScripting:
             #     action.setShortcut(QKeySequence("Ctrl+" + str(i+1)))
             menus.append(action)

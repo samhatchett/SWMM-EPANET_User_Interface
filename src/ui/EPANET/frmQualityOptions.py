@@ -1,21 +1,22 @@
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
+import PyQt5.QtWidgets as QtWidgets
 import core.epanet.options.quality
 from core.epanet.options.quality import QualityOptions
 from core.epanet.options.quality import QualityAnalysisType
 from ui.EPANET.frmQualityOptionsDesigner import Ui_frmQualityOptions
 
 
-class frmQualityOptions(QtGui.QMainWindow, Ui_frmQualityOptions):
+class frmQualityOptions(QtWidgets.QMainWindow, Ui_frmQualityOptions):
 
     def __init__(self, main_form=None):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "epanet/src/src/Anal0041.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.rbnChemical, QtCore.SIGNAL("clicked()"), self.analysis_option_changed)
-        QtCore.QObject.connect(self.txtChemicalName, QtCore.SIGNAL("textChanged(QString)"), self.chemical_name_changed)
+        self.cmdOK.clicked().connect(self.cmdOK_Clicked)
+        self.cmdCancel.clicked().connect(self.cmdCancel_Clicked)
+        self.rbnChemical.clicked().connect(self.analysis_option_changed)
+        self.txtChemicalName.textChanged().connect(self.chemical_name_changed);
 
         self.quality_dict = {
             QualityAnalysisType.NONE: self.rbnNone,

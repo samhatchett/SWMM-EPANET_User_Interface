@@ -11,13 +11,13 @@ class frmMapAddVector(QtGui.QDialog):
         self.specs = {}
         self.ui.cboEncoding.addItem("System")
         self.ui.cboEncoding.addItem("UTF-8")
-        QtCore.QObject.connect(self.ui.cboEncoding,
+        #QtCore.QObject.connect(self.ui.cboEncoding,
                                QtCore.SIGNAL("currentIndexChanged(QString)"),
                                self.cboEncoding_currentIndexChanged)
-        QtCore.QObject.connect(self.ui.btnBrowse, QtCore.SIGNAL("clicked()"), self.btnBrowse_Clicked)
-        #QtCore.QObject.connect(self.ui.btnBox, QtCore.SIGNAL("clicked(QAbstractButton)"), self.btnBox_Clicked)
-        QtCore.QObject.connect(self.ui.btnBox, QtCore.SIGNAL("accepted()"), self.btnBox_Accepted)
-        QtCore.QObject.connect(self.ui.btnBox, QtCore.SIGNAL("rejected()"), self.btnBox_Rejected)
+        #QtCore.QObject.connect(self.ui.btnBrowse, QtCore.SIGNAL("clicked()"), self.btnBrowse_Clicked)
+        ##QtCore.QObject.connect(self.ui.btnBox, QtCore.SIGNAL("clicked(QAbstractButton)"), self.btnBox_Clicked)
+        #QtCore.QObject.connect(self.ui.btnBox, QtCore.SIGNAL("accepted()"), self.btnBox_Accepted)
+        #QtCore.QObject.connect(self.ui.btnBox, QtCore.SIGNAL("rejected()"), self.btnBox_Rejected)
 
     def cboEncoding_currentIndexChanged(self):
         pass

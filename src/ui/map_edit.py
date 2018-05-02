@@ -5,7 +5,7 @@ try:
     from PyQt5.QtGui import *
     from PyQt5.Qt import *
     from core.coordinate import Coordinate, Polygon
-    from svgs_rc import *
+    from ui.svgs_rc import *
     import traceback
     import math
     import os
@@ -201,10 +201,10 @@ try:
             self.vertex = None
 
 
-    class EditVertex(QtGui.QUndoCommand):
+    class EditVertex(QUndoCommand):
         """Private class that edit a sub or link vertices from the model and the map. Accessed via delete_item method."""
         def __init__(self, session, layer, feature):
-            QtGui.QUndoCommand.__init__(self, "Change geometry")
+            QUndoCommand.__init__(self, "Change geometry")
             self.session = session
             self.layer = layer
             self.subcentroids = self.session.model_layers.layer_by_name("subcentroids")
@@ -416,4 +416,4 @@ try:
                 pass
 
 except:
-    print "Skipping map_edit"
+    print("Skipping map_edit")

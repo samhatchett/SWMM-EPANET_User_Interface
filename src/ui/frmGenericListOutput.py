@@ -1,14 +1,13 @@
-import PyQt5.QtCore as QtCore
-import PyQt5.QtGui as QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from ui.frmGenericPropertyEditorDesigner import Ui_frmGenericPropertyEditor
 
 
-class frmGenericListOutput(QtGui.QMainWindow, Ui_frmGenericPropertyEditor):
+class frmGenericListOutput(QtWidgets.QMainWindow, Ui_frmGenericPropertyEditor):
     def __init__(self, main_form, title):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.setupUi(self)
         self.setWindowTitle(title)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.fraNotes.setVisible(False)
         self.cmdOK.setVisible(False)
         self.cmdCancel.setText('Close')

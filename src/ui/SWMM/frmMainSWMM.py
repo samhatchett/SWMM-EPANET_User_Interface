@@ -336,90 +336,90 @@ class frmMainSWMM(frmMain):
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/swmmsmainwindow.htm"
 
-        self.actionTranslate_Coordinates = QtGui.QAction(self)
+        self.actionTranslate_Coordinates = QtWidgets.QAction(self)
         self.actionTranslate_Coordinates.setObjectName(from_utf8("actionTranslate_CoordinatesMenu"))
         self.actionTranslate_Coordinates.setText(transl8("frmMain", "Translate Coordinates", None))
         self.actionTranslate_Coordinates.setToolTip(transl8("frmMain", "Change model objects coordinates", None))
         self.menuView.addAction(self.actionTranslate_Coordinates)
-        QtCore.QObject.connect(self.actionTranslate_Coordinates, QtCore.SIGNAL('triggered()'),
+        #QtCore.QObject.connect(self.actionTranslate_Coordinates, QtCore.SIGNAL('triggered()'),
                                lambda: self.open_translate_coord_dialog(None, None))
 
-        self.actionStatus_ReportMenu = QtGui.QAction(self)
+        self.actionStatus_ReportMenu = QtWidgets.QAction(self)
         self.actionStatus_ReportMenu.setObjectName(from_utf8("actionStatus_ReportMenu"))
         self.actionStatus_ReportMenu.setText(transl8("frmMain", "Status", None))
         self.actionStatus_ReportMenu.setToolTip(transl8("frmMain", "Display Simulation Status", None))
         self.menuReport.addAction(self.actionStatus_ReportMenu)
-        QtCore.QObject.connect(self.actionStatus_ReportMenu, QtCore.SIGNAL('triggered()'), self.report_status)
+        #QtCore.QObject.connect(self.actionStatus_ReportMenu, QtCore.SIGNAL('triggered()'), self.report_status)
         self.actionProjStatus.triggered.connect(self.report_status)
 
-        self.actionSummary_ReportMenu = QtGui.QAction(self)
+        self.actionSummary_ReportMenu = QtWidgets.QAction(self)
         self.actionSummary_ReportMenu.setObjectName(from_utf8("actionSummary_ReportMenu"))
         self.actionSummary_ReportMenu.setText(transl8("frmMain", "Summary", None))
         self.actionSummary_ReportMenu.setToolTip(transl8("frmMain", "Display Results Summary", None))
         self.menuReport.addAction(self.actionSummary_ReportMenu)
-        QtCore.QObject.connect(self.actionSummary_ReportMenu, QtCore.SIGNAL('triggered()'), self.report_summary)
+        #QtCore.QObject.connect(self.actionSummary_ReportMenu, QtCore.SIGNAL('triggered()'), self.report_summary)
 
-        menu = QtGui.QMenu()
-        submenuGraph = QtGui.QMenu(self.menuReport)
+        menu = QtWidgets.QMenu()
+        submenuGraph = QtWidgets.QMenu(self.menuReport)
         submenuGraph.setTitle("Graph")
         self.menuReport.addMenu(submenuGraph)
 
-        self.actionGraph_ProfileMenu = QtGui.QAction(self)
+        self.actionGraph_ProfileMenu = QtWidgets.QAction(self)
         self.actionGraph_ProfileMenu.setObjectName(from_utf8("actionGraph_ProfileMenu"))
         self.actionGraph_ProfileMenu.setText(transl8("frmMain", "Profile", None))
         self.actionGraph_ProfileMenu.setToolTip(transl8("frmMain", "Display Profile Plot", None))
         submenuGraph.addAction(self.actionGraph_ProfileMenu)
-        QtCore.QObject.connect(self.actionGraph_ProfileMenu, QtCore.SIGNAL('triggered()'), self.report_profile)
+        #QtCore.QObject.connect(self.actionGraph_ProfileMenu, QtCore.SIGNAL('triggered()'), self.report_profile)
         self.actionProjPlotProfile.triggered.connect(self.report_profile)
 
 
-        self.actionGraph_TimeSeriesMenu = QtGui.QAction(self)
+        self.actionGraph_TimeSeriesMenu = QtWidgets.QAction(self)
         self.actionGraph_TimeSeriesMenu.setObjectName(from_utf8("actionGraph_TimeSeriesMenu"))
         self.actionGraph_TimeSeriesMenu.setText(transl8("frmMain", "Time Series", None))
         self.actionGraph_TimeSeriesMenu.setToolTip(transl8("frmMain", "Display Time Series Plot", None))
         submenuGraph.addAction(self.actionGraph_TimeSeriesMenu)
-        QtCore.QObject.connect(self.actionGraph_TimeSeriesMenu, QtCore.SIGNAL('triggered()'), self.report_timeseries)
+        #QtCore.QObject.connect(self.actionGraph_TimeSeriesMenu, QtCore.SIGNAL('triggered()'), self.report_timeseries)
         self.actionProjPlotTimeseries.triggered.connect(self.report_timeseries)
 
-        self.actionGraph_ScatterMenu = QtGui.QAction(self)
+        self.actionGraph_ScatterMenu = QtWidgets.QAction(self)
         self.actionGraph_ScatterMenu.setObjectName(from_utf8("actionGraph_ScatterMenu"))
         self.actionGraph_ScatterMenu.setText(transl8("frmMain", "Scatter", None))
         self.actionGraph_ScatterMenu.setToolTip(transl8("frmMain", "Display Scatter Plot", None))
         submenuGraph.addAction(self.actionGraph_ScatterMenu)
-        QtCore.QObject.connect(self.actionGraph_ScatterMenu, QtCore.SIGNAL('triggered()'), self.report_scatter)
+        #QtCore.QObject.connect(self.actionGraph_ScatterMenu, QtCore.SIGNAL('triggered()'), self.report_scatter)
         self.actionProjPlotScatter.triggered.connect(self.report_scatter)
 
-        self.actionTable_VariableMenu = QtGui.QAction(self)
+        self.actionTable_VariableMenu = QtWidgets.QAction(self)
         self.actionTable_VariableMenu.setObjectName(from_utf8("actionTable_VariableMenu"))
         self.actionTable_VariableMenu.setText(transl8("frmMain", "Table", None))
         self.actionTable_VariableMenu.setToolTip(transl8("frmMain", "Display Table", None))
         self.menuReport.addAction(self.actionTable_VariableMenu)
-        QtCore.QObject.connect(self.actionTable_VariableMenu, QtCore.SIGNAL('triggered()'), self.report_variable)
+        #QtCore.QObject.connect(self.actionTable_VariableMenu, QtCore.SIGNAL('triggered()'), self.report_variable)
         self.actionProjTableTimeseries.triggered.connect(self.report_variable)
 
-        self.actionStatistics_ReportMenu = QtGui.QAction(self)
+        self.actionStatistics_ReportMenu = QtWidgets.QAction(self)
         self.actionStatistics_ReportMenu.setObjectName(from_utf8("actionStatistics_ReportMenu"))
         self.actionStatistics_ReportMenu.setText(transl8("frmMain", "Statistics", None))
         self.actionStatistics_ReportMenu.setToolTip(transl8("frmMain", "Display Results Statistics", None))
         self.menuReport.addAction(self.actionStatistics_ReportMenu)
-        QtCore.QObject.connect(self.actionStatistics_ReportMenu, QtCore.SIGNAL('triggered()'), self.report_statistics)
+        #QtCore.QObject.connect(self.actionStatistics_ReportMenu, QtCore.SIGNAL('triggered()'), self.report_statistics)
         self.actionProjTableStatistics.triggered.connect(self.report_statistics)
 
         self.actionStdMapQuery.triggered.connect(self.map_query)
 
-        self.Help_Topics_Menu = QtGui.QAction(self)
+        self.Help_Topics_Menu = QtWidgets.QAction(self)
         self.Help_Topics_Menu.setObjectName(from_utf8("Help_Topics_Menu"))
         self.Help_Topics_Menu.setText(transl8("frmMain", "Help Topics", None))
         self.Help_Topics_Menu.setToolTip(transl8("frmMain", "Display Help Topics", None))
         self.menuHelp.addAction(self.Help_Topics_Menu)
-        QtCore.QObject.connect(self.Help_Topics_Menu, QtCore.SIGNAL('triggered()'), self.help_topics)
+        #QtCore.QObject.connect(self.Help_Topics_Menu, QtCore.SIGNAL('triggered()'), self.help_topics)
 
-        self.Help_About_Menu = QtGui.QAction(self)
+        self.Help_About_Menu = QtWidgets.QAction(self)
         self.Help_About_Menu.setObjectName(from_utf8("Help_About_Menu"))
         self.Help_About_Menu.setText(transl8("frmMain", "About", None))
         self.Help_About_Menu.setToolTip(transl8("frmMain", "About SWMM", None))
         self.menuHelp.addAction(self.Help_About_Menu)
-        QtCore.QObject.connect(self.Help_About_Menu, QtCore.SIGNAL('triggered()'), self.help_about)
+        #QtCore.QObject.connect(self.Help_About_Menu, QtCore.SIGNAL('triggered()'), self.help_about)
 
         if self.map_widget:
             self.map_widget.applyLegend()
@@ -1642,7 +1642,7 @@ class ModelLayersSWMM(ModelLayers):
 
         # add centroid item
         c_item = None
-        for obj_type, lyr_name in self.map_widget.session.section_types.iteritems():
+        for obj_type, lyr_name in self.map_widget.session.section_types.items():
             if lyr_name == "subcentroids":
                 c_item = obj_type()
                 c_item.x = str(pt.x())

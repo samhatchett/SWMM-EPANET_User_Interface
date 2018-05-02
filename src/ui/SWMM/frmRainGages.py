@@ -19,7 +19,7 @@ class frmRainGages(frmGenericPropertyEditor):
         for column in range(0, self.tblGeneric.columnCount()):
             # show current and available timeseries in combo box
             timeseries_list = self.project.timeseries.value
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('*')
             selected_index = 0
             for value in timeseries_list:

@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QSettings
-from model_utility import ParseData
+from ui.model_utility import ParseData
 import os
 
 class ini_setting:
@@ -148,10 +148,10 @@ class ini_setting:
             try:
                 dict1[option] = self.config.get(section, option)
                 if dict1[option] == -1:
-                    print "skip: %s" % option
+                    print("skip: %s" % option)
                 pass
             except:
-                print "exception on %s!" % option
+                print("exception on %s!" % option)
                 dict1[option] = None
         return dict1
 

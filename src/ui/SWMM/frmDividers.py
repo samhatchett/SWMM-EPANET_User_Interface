@@ -42,7 +42,7 @@ class frmDividers(frmGenericPropertyEditor):
             # for curves, show available curves
             curves_section = self.project.find_section("CURVES")
             curves_list = curves_section.value[0:]
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in curves_list:

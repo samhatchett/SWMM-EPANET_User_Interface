@@ -139,7 +139,7 @@ class CalibrationDataset:
                 self.sum_sim += vs
                 self.sum_err += abs(vs - vo)
                 self.sum_err2 += (vs - vo) ** 2
-                if sigma > 0 and vo <> 0.0:
+                if sigma > 0 and vo != 0.0:
                     self.sum_obs_non0_ctr += 1
                     self.sum_err_relative += ((vs - vo)/vo) ** 2
         self.SumsToStats()

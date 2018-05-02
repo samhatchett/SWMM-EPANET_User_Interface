@@ -6,14 +6,14 @@ from ui.SWMM.frmTableSelectionDesigner import Ui_frmTableSelection
 from ui.frmGenericListOutput import frmGenericListOutput
 
 
-class frmTableSelection(QtGui.QMainWindow, Ui_frmTableSelection):
+class frmTableSelection(QtWidgets.QMainWindow, Ui_frmTableSelection):
 
     def __init__(self, main_form):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/tablebyobjectdialog.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
 
         # self.set_from(parent.project)
         self._main_form = main_form

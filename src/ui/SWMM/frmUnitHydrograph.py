@@ -5,17 +5,17 @@ from ui.SWMM.frmUnitHydrographDesigner import Ui_frmUnitHydrograph
 from core.swmm.hydrology.unithydrograph import UnitHydrograph
 
 
-class frmUnitHydrograph(QtGui.QMainWindow, Ui_frmUnitHydrograph):
+class frmUnitHydrograph(QtWidgets.QMainWindow, Ui_frmUnitHydrograph):
     month = ['All Months', 'January', 'February', 'March', 'April', 'May', 'June',
              'July', 'August', 'September', 'October', 'November', 'December']
     month3 = ['All', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     def __init__(self, main_form, edit_these, new_item):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/unithydrographeditordialog.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.cboHydrograph.currentIndexChanged.connect(self.cboHydrograph_currentIndexChanged)
         self._main_form = main_form
         self.project = main_form.project
@@ -66,17 +66,17 @@ class frmUnitHydrograph(QtGui.QMainWindow, Ui_frmUnitHydrograph):
                     row = 0
                 elif value.term == 'Medium':
                     row = 1
-                led = QtGui.QLineEdit(str(value.response_ratio))
+                led = QtWidgets.QLineEdit(str(value.response_ratio))
                 self.tblPack.setItem(row, 0, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.time_to_peak))
+                led = QtWidgets.QLineEdit(str(value.time_to_peak))
                 self.tblPack.setItem(row, 1, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.recession_limb_ratio))
+                led = QtWidgets.QLineEdit(str(value.recession_limb_ratio))
                 self.tblPack.setItem(row, 2, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.initial_abstraction_depth))
+                led = QtWidgets.QLineEdit(str(value.initial_abstraction_depth))
                 self.tblAbstraction.setItem(row, 0, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.initial_abstraction_rate))
+                led = QtWidgets.QLineEdit(str(value.initial_abstraction_rate))
                 self.tblAbstraction.setItem(row, 1, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.initial_abstraction_amount))
+                led = QtWidgets.QLineEdit(str(value.initial_abstraction_amount))
                 self.tblAbstraction.setItem(row, 2, QtGui.QTableWidgetItem(led.text()))
 
         # code to set rain gage combo, to be implemented with rain gages
@@ -152,7 +152,7 @@ class frmUnitHydrograph(QtGui.QMainWindow, Ui_frmUnitHydrograph):
         self.close()
 
     def cboHydrograph_currentIndexChanged(self, newIndex):
-        led = QtGui.QLineEdit('')
+        led = QtWidgets.QLineEdit('')
         self.tblPack.setItem(0, 0, QtGui.QTableWidgetItem(led.text()))
         self.tblPack.setItem(0, 1, QtGui.QTableWidgetItem(led.text()))
         self.tblPack.setItem(0, 2, QtGui.QTableWidgetItem(led.text()))
@@ -180,16 +180,16 @@ class frmUnitHydrograph(QtGui.QMainWindow, Ui_frmUnitHydrograph):
                     row = 1
                 else:
                     row = 2
-                led = QtGui.QLineEdit(str(value.response_ratio))
+                led = QtWidgets.QLineEdit(str(value.response_ratio))
                 self.tblPack.setItem(row, 0, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.time_to_peak))
+                led = QtWidgets.QLineEdit(str(value.time_to_peak))
                 self.tblPack.setItem(row, 1, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.recession_limb_ratio))
+                led = QtWidgets.QLineEdit(str(value.recession_limb_ratio))
                 self.tblPack.setItem(row, 2, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.initial_abstraction_depth))
+                led = QtWidgets.QLineEdit(str(value.initial_abstraction_depth))
                 self.tblAbstraction.setItem(row, 0, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.initial_abstraction_rate))
+                led = QtWidgets.QLineEdit(str(value.initial_abstraction_rate))
                 self.tblAbstraction.setItem(row, 1, QtGui.QTableWidgetItem(led.text()))
-                led = QtGui.QLineEdit(str(value.initial_abstraction_amount))
+                led = QtWidgets.QLineEdit(str(value.initial_abstraction_amount))
                 self.tblAbstraction.setItem(row, 2, QtGui.QTableWidgetItem(led.text()))
 

@@ -1,18 +1,18 @@
 try:
     from qgis.core import *
     from qgis.gui import *
-    from PyQt5 import QtGui, QtCore, Qt
+    from PyQt5 import QtGui, QtCore, QtWidgets
     from PyQt5.QtGui import *
     from PyQt5.Qt import *
     from core.coordinate import Coordinate, Polygon
-    from svgs_rc import *
-    from qgis_icons_rc import *
+    from ui.svgs_rc import *
+    from ui.qgis_icons_rc import *
     import traceback
     import math
     import os
     import sys
     from enum import Enum
-    from map_edit import EditTool
+    from ui.map_edit import EditTool
     from ui.model_utility import ParseData
 
 
@@ -32,7 +32,7 @@ try:
             super(EmbedMap, self).__init__(main_form)
             self.canvas = canvas  # QgsMapCanvas()
             self.canvas.setMouseTracking(True)
-            self.canvas.useImageToRender(False)
+            # self.canvas.useImageToRender(False)
             # self.canvas.setCanvasColor(QtGui.QColor.white)
 
             root = QgsProject.instance().layerTreeRoot()
@@ -42,7 +42,7 @@ try:
             self.other_group = root.addGroup("Others")
             self.base_group = root.addGroup("Base Maps")
             self.layer_styles = {}
-            # self.flowdir_symlayer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/flow_dir.svg')
+            # self.flowdir_symlayer = QgsSvgMarkerSymbolLayer(':/icons/svg/flow_dir.svg')
 
             # first thoughts about adding a legend - may be barking up wrong tree...
             # self.root = QgsProject.instance().layerTreeRoot()
@@ -88,7 +88,7 @@ try:
             self.coord_fext.x = 100000.0
             self.coord_fext.y = 100000.0
 
-            QtCore.QObject.connect(self.canvas, QtCore.SIGNAL("xyCoordinates(QgsPoint)"), self.canvasMoveEvent)
+            self.canvas.xyCoordinates.connect(self.canvasMoveEvent)
 
             layout = QVBoxLayout(self)
             layout.setContentsMargins(0, 0, 0, 0)
@@ -105,6 +105,8 @@ try:
 
             self.refresh_extent_needed = True
             self.feature_request = QgsFeatureRequest()
+            
+            self.qgsProject = QgsProject()
 
         def setZoomInMode(self):
             if self.session.actionZoom_in.isChecked():
@@ -275,7 +277,7 @@ try:
                 # QApplication.setOverrideCursor(QCursor(Qt.CrossCursor))
                 layer = getattr(self.session.model_layers, layer_name)
                 self.session.select_named_items(layer, None)
-                for obj_type, name in self.session.section_types.iteritems():
+                for obj_type, name in self.session.section_types.items():
                     if name == layer_name:
                         if self.addObjectTool:
                             QApplication.restoreOverrideCursor()
@@ -317,8 +319,8 @@ try:
             # Test of activating QGIS properties editor, does not belong in this method
             # layer = self.canvas.layers()[0]
             # self.layer_properties_widget = QgsLayerPropertiesWidget(
-            #         layer.rendererV2().symbol().symbolLayers()[0],
-            #         layer.rendererV2().symbol(),
+            #         layer.Renderer().symbol().symbolLayers()[0],
+            #         layer.Renderer().symbol(),
             #         layer)
             # self.layer_properties_widget.setMapCanvas(self.canvas)
             # self.layer_properties_widget.show()
@@ -349,7 +351,7 @@ try:
                     except:
                         pass
                     recursive_set(child)
-            QtGui.QWidget.setMouseTracking(self, flag)
+            QtWidgets.QWidget.setMouseTracking(self, flag)
             recursive_set(self)
 
         def canvasMoveEvent(self, p):
@@ -389,7 +391,7 @@ try:
                 if subset_attribute:
                     self.feature_request.setSubsetOfAttributes([ind])
                 else:
-                    self.feature_request.setSubsetOfAttributes(QgsFeatureRequest.AllAttributes)
+                    self.feature_request.setSubsetOfAttributes(QgsFeatureRequest.ALL_ATTRIBUTES)
 
                 for feat in layer.getFeatures(self.feature_request):
                     # name = feat.attribute("some_other_field")
@@ -412,7 +414,7 @@ try:
         @staticmethod
         def point_feature_from_item(item):
             feature = QgsFeature()
-            feature.setGeometry(QgsGeometry.fromPoint(QgsPoint(float(item.x), float(item.y))))
+            feature.setGeometry(QgsGeometry.fromPointXY(QgsPoint(float(item.x), float(item.y))))
             feature.setAttributes([item.name, '0, 0, 0', 0.0])
             return feature
 
@@ -439,7 +441,7 @@ try:
         @staticmethod
         def polygon_feature_from_item(item):
             points = [QgsPoint(float(coord.x), float(coord.y)) for coord in item.vertices]
-            geometry = QgsGeometry.fromPolygon([points])
+            geometry = QgsGeometry.fromPolygonXY([points])
             feature = QgsFeature()
             feature.setGeometry(geometry)
             feature.setAttributes([item.name, 0.0, 0, ""])
@@ -475,9 +477,9 @@ try:
                             features.append(self.point_feature_from_item(coordinate_pair))
                         except Exception as ex:
                             if len(str(coordinate_pair.x)) > 0 and len(str(coordinate_pair.y)) > 0:
-                                print "Did not add coordinate '" + coordinate_pair.name + "' (" +\
+                                print("Did not add coordinate '" + coordinate_pair.name + "' (" +\
                                       str(coordinate_pair.x) + ", " +\
-                                      str(coordinate_pair.y) + ") to map: " + str(ex)
+                                      str(coordinate_pair.y) + ") to map: " + str(ex))
 
                 if features:
                     # changes are only possible when editing the layer
@@ -504,10 +506,10 @@ try:
                 If specified, coordinates will be used to check for whether there are too many to label. """
             if layer is None:
                 return
-            symbol = QgsMarkerSymbolV2.createSimple({})
-            # symbol = QgsMarkerSymbolV2.defaultSymbol(layer.geometryType())
+            symbol = QgsMarkerSymbol.createSimple({})
+            # symbol = QgsMarkerSymbol.defaultSymbol(layer.geometryType())
             symbol.deleteSymbolLayer(0)
-            symbol_layer = QgsSimpleMarkerSymbolLayerV2()
+            symbol_layer = QgsSimpleMarkerSymbolLayer()
             symbol_layer.setColor(QColor(130, 180, 255, 255))
 
             # Label the coordinates if there are not too many of them
@@ -520,27 +522,27 @@ try:
 
             if "JUNCTION" in layer_name_upper:
                 size = 1.5
-                symbol_layer.setName(MapSymbol.circle.name)
+                symbol_layer.setShape(MapSymbol.circle)
             elif "OUT" in layer_name_upper:
                 size = 2.5
-                symbol_layer.setName(MapSymbol.triangle.name)
+                symbol_layer.setShape(MapSymbol.triangle)
                 symbol_layer.setAngle(180.0)
             elif "DIVIDER" in layer_name_upper:
-                symbol_layer.setName(MapSymbol.diamond.name)
+                symbol_layer.setShape(MapSymbol.diamond)
             elif "STORAGE" in layer_name_upper or \
                  "RESERVOIR" in layer_name_upper:
                 #symbol_layer.setName(MapSymbol.rectangle.name)
-                symbol_layer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_storage.svg')
+                symbol_layer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_storage.svg')
             elif "MAP" in layer_name_upper:
-                symbol_layer.setName(MapSymbol.x.name)
+                symbol_layer.setShape(MapSymbol.x)
             elif "CENTROID" in layer_name_upper:
-                symbol_layer.setName(MapSymbol.square.name)
+                symbol_layer.setShape(MapSymbol.square)
                 symbol_layer.setColor(QColor('black'))
                 size = 1.0
             elif "RAIN" in layer_name_upper:
-                symbol_layer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_raingage.svg')
+                symbol_layer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_raingage.svg')
             elif "TANK" in layer_name_upper:
-                symbol_layer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_tank.svg')
+                symbol_layer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_tank.svg')
 
             if size < 1.0:
                 size = 4.0
@@ -568,9 +570,9 @@ try:
 
             symbol_layer.setSize(size)
             symbol.appendSymbolLayer(symbol_layer)
-            renderer = QgsSingleSymbolRendererV2(symbol)
-            layer.setRendererV2(renderer)
-            # layer.rendererV2().symbols()[0].changeSymbolLayer(0, symbol_layer)
+            renderer = QgsSingleSymbolRenderer(symbol)
+            layer.setRenderer(renderer)
+            # layer.Renderer().symbols()[0].changeSymbolLayer(0, symbol_layer)
 
         def addLinks(self, coordinates, links, layer_name, link_color=QColor('black'), link_width=1):
             try:
@@ -580,7 +582,7 @@ try:
                     layer = QgsVectorLayer("LineString", layer_name, "memory")
                 provider = layer.dataProvider()
 
-                symbol_layer = QgsSimpleLineSymbolLayerV2()
+                symbol_layer = QgsSimpleLineSymbolLayer()
                 symbol_layer.setColor(link_color)
                 if link_width > 1 and (coordinates is None or len(coordinates) <= 100):
                     symbol_layer.setWidth(link_width)
@@ -608,7 +610,7 @@ try:
                         try:
                             features.append(self.line_feature_from_item(link, coordinates))
                         except Exception as exLink:
-                            print "Skipping link " + link.name + ": " + str(exLink)
+                            print("Skipping link " + link.name + ": " + str(exLink))
 
                 if features:
                     # changes are only possible when editing the layer
@@ -617,9 +619,9 @@ try:
                     layer.commitChanges()
                     layer.updateExtents()
                     layer.dataProvider().createSpatialIndex()
-                # sl = QgsSymbolLayerV2Registry.instance().symbolLayerMetadata("LineDecoration").createSymbolLayer(
+                # sl = QgsSymbolLayerRegistry.instance().symbolLayerMetadata("LineDecoration").createSymbolLayer(
                 #     {'width': '0.26', 'color': '0,0,0'})
-                # layer.rendererV2().symbols()[0].appendSymbolLayer(sl)
+                # layer.Renderer().symbols()[0].appendSymbolLayer(sl)
                 if "sublink" in layer_name.lower():
                     self.add_layer(layer, self.project_group)
                 else:
@@ -633,16 +635,16 @@ try:
         def add_layer(self, layer, group=None):
             self.set_crs_from_layer(layer)
             if group:
-                QgsMapLayerRegistry.instance().addMapLayer(layer, False)
+                self.qgsProject.addMapLayer(layer, False)
                 group.addLayer(layer)
             else:
-                QgsMapLayerRegistry.instance().addMapLayer(layer)
+                self.qgsProject.addMapLayer(layer)
             layers = self.canvas.layers()
             layers.append(layer)
-            self.canvas.setLayerSet([QgsMapCanvasLayer(lyr) for lyr in layers])
+            self.canvas.setLayers([lyr for lyr in layers])
             self.set_extent(self.canvas.fullExtent())
             if "centroid" in layer.name().lower():
-                for mlyrkey in QgsMapLayerRegistry.instance().mapLayers().keys():
+                for mlyrkey in self.qgsProject.mapLayers().keys():
                     if "centroid" in mlyrkey:
                         break
                 node = self.session.gis_layer_root.findLayer(mlyrkey)
@@ -663,11 +665,11 @@ try:
                     # else:  # TODO: compare to existing CRS?
                     #     pass
             except Exception as ex:
-                print str(ex)
+                print(str(ex))
 
         def remove_all_layers(self):
-            QgsMapLayerRegistry.instance().removeAllMapLayers()
-            self.canvas.setLayerSet([])
+            self.qgsProject.removeAllMapLayers()
+            self.canvas.setLayers([])
 
         def remove_layers(self, remove_these_layers):
             layer_names = []
@@ -675,8 +677,8 @@ try:
             for layer in remove_these_layers:
                 layer_names.append(layer.name())
                 canvas_layers.remove(layer)
-            QgsMapLayerRegistry.instance().removeMapLayers(layer_names)
-            self.canvas.setLayerSet([QgsMapCanvasLayer(lyr) for lyr in canvas_layers])
+            self.qgsProject.removeMapLayers(layer_names)
+            self.canvas.setLayerSet([lyr for lyr in canvas_layers])
             self.set_extent(self.canvas.fullExtent())
 
         def select_all_map_features(self):
@@ -695,56 +697,56 @@ try:
         def set_default_line_renderer(layer, do_labels=True):
             if layer is None:
                 return
-            symbol = QgsLineSymbolV2.createSimple({})
+            symbol = QgsLineSymbol.createSimple({})
             symbol.deleteSymbolLayer(0)
-            slayer = QgsSimpleLineSymbolLayerV2()
+            slayer = QgsSimpleLineSymbolLayer()
             slayer.setWidth(1.0)
             slayer.setColor(QColor("dark gray"))
             symbol.appendSymbolLayer(slayer)
             layer_name_upper = layer.name().upper()
             if "CONDUIT" in layer_name_upper or \
                "PIPE" in layer_name_upper:
-                slayer = QgsSimpleLineSymbolLayerV2()
+                slayer = QgsSimpleLineSymbolLayer()
                 slayer.setWidth(0.5)
                 slayer.setColor(QColor("light gray"))
                 symbol.appendSymbolLayer(slayer)
-                renderer = QgsSingleSymbolRendererV2(symbol)
-                layer.setRendererV2(renderer)
+                renderer = QgsSingleSymbolRenderer(symbol)
+                layer.setRenderer(renderer)
             elif "SUBLINK" in layer_name_upper:
                 symbol.deleteSymbolLayer(0)
-                slayer = QgsSimpleLineSymbolLayerV2()
+                slayer = QgsSimpleLineSymbolLayer()
                 slayer.setWidth(0.5)
                 slayer.setColor(QColor("light blue"))
                 slayer.setPenStyle(QtCore.Qt.DotLine)
                 symbol.appendSymbolLayer(slayer)
-                renderer = QgsSingleSymbolRendererV2(symbol)
-                layer.setRendererV2(renderer)
+                renderer = QgsSingleSymbolRenderer(symbol)
+                layer.setRenderer(renderer)
             else:
                 slayer.setWidth(1.0)
-                slayer = QgsMarkerLineSymbolLayerV2(True, 1.5)
+                slayer = QgsMarkerLineSymbolLayer(True, 1.5)
                 mlayer = slayer.subSymbol()
                 anewlayer = None
                 if "PUMP" in layer_name_upper:
-                    anewlayer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_pump.svg')
+                    anewlayer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_pump.svg')
                 elif "ORIFICE" in layer_name_upper:
-                    anewlayer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_orifice.svg')
+                    anewlayer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_orifice.svg')
                 elif "OUTLET" in layer_name_upper:
-                    anewlayer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_outlet.svg')
+                    anewlayer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_outlet.svg')
                 elif "WEIR" in layer_name_upper:
-                    anewlayer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_weir.svg')
+                    anewlayer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_weir.svg')
                 elif "VALVE" in layer_name_upper:
-                    anewlayer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/obj_valve.svg')
+                    anewlayer = QgsSvgMarkerSymbolLayer(':/icons/svg/obj_valve.svg')
                 if anewlayer is not None:
                     mlayer.changeSymbolLayer(0, anewlayer)
-                    slayer.setPlacement(QgsMarkerLineSymbolLayerV2.CentralPoint)
+                    slayer.setPlacement(QgsMarkerLineSymbolLayer.CentralPoint)
                     symbol.appendSymbolLayer(slayer)
-                    renderer = QgsSingleSymbolRendererV2(symbol)
-                    layer.setRendererV2(renderer)
+                    renderer = QgsSingleSymbolRenderer(symbol)
+                    layer.setRenderer(renderer)
                 else:
-                    sym = QgsSymbolV2.defaultSymbol(layer.geometryType())
+                    sym = QgsSymbol.defaultSymbol(layer.geometryType())
                     sym.setColor(QColor('gray'))
                     sym.setWidth(0.5)
-                    layer.setRendererV2(QgsSingleSymbolRendererV2(sym))
+                    layer.setRenderer(QgsSingleSymbolRenderer(sym))
 
             # do_labels = True
             if do_labels and not "SUBLINK" in layer_name_upper:
@@ -844,10 +846,10 @@ try:
 
         @staticmethod
         def set_default_polygon_renderer(layer, poly_color='lightgreen', do_labels=False):
-            sym = QgsSymbolV2.defaultSymbol(layer.geometryType())
+            sym = QgsSymbol.defaultSymbol(layer.geometryType())
             if "SUBCATCHMENT" in layer.name().upper():
                 sym.deleteSymbolLayer(0)
-                slayer = QgsSimpleFillSymbolLayerV2()
+                slayer = QgsSimpleFillSymbolLayer()
                 slayer.setColor(QColor('dark gray'))
                 sym.appendSymbolLayer(slayer)
                 slayer = QgsLinePatternFillSymbolLayer()
@@ -856,13 +858,13 @@ try:
                 slayer.setDistance(2)
                 slayer.setLineAngle(70)
                 sym.appendSymbolLayer(slayer)
-                slayer = QgsCentroidFillSymbolLayerV2()
+                slayer = QgsCentroidFillSymbolLayer()
                 slayer.setColor(QColor("black"))
                 sym.appendSymbolLayer(slayer)
             else:
                 sym.setColor(QColor(poly_color))
             sym.setAlpha(0.2)
-            layer.setRendererV2(QgsSingleSymbolRendererV2(sym))
+            layer.setRenderer(QgsSingleSymbolRenderer(sym))
 
             if do_labels and "SUBCATCHMENT" in layer.name().upper():
                 pal_layer = QgsPalLayerSettings()
@@ -877,20 +879,20 @@ try:
         @staticmethod
         def validatedGraduatedSymbol(layer, arenderer):
             if layer:
-                return isinstance(layer.rendererV2(), QgsGraduatedSymbolRendererV2)
+                return isinstance(layer.Renderer(), QgsGraduatedSymbolRendererV2)
             if arenderer:
                 return isinstance(arenderer, QgsGraduatedSymbolRendererV2)
 
         @staticmethod
         def validatedDefaultSymbol(geometryType):
-            symbol = QgsSymbolV2.defaultSymbol(geometryType)
+            symbol = QgsSymbol.defaultSymbol(geometryType)
             if symbol is None:
                 if geometryType == QGis.Point:
-                    symbol = QgsMarkerSymbolV2()
+                    symbol = QgsMarkerSymbol()
                 elif geometryType == QGis.Line:
-                    symbol = QgsLineSymbolV2()
+                    symbol = QgsLineSymbol()
                 elif geometryType == QGis.Polygon:
-                    symbol = QgsFillSymbolV2()
+                    symbol = QgsFillSymbol()
             return symbol
 
         @staticmethod
@@ -933,7 +935,7 @@ try:
                         if max is None or val > max:
                             max = val
                 except Exception as ex:
-                    print str(ex)
+                    print(str(ex))
                     provider.changeAttributeValues({feature.id() : {vfi : 0.0}})
 
             # colorRamp = QgsVectorGradientColorRampV2.create(
@@ -942,13 +944,13 @@ try:
             # renderer = QgsGraduatedSymbolRendererV2.createRenderer(layer, "color", 5,
             #                                                          QgsGraduatedSymbolRendererV2.Quantile, symbol, colorRamp)
             # renderer.setSizeScaleField("LABELRANK")
-            # layer.setRendererV2(QgsSingleSymbolRendererV2(symbol))
+            # layer.setRenderer(QgsSingleSymbolRenderer(symbol))
 
             slayer = None
             if do_flowdir:
-                slayer = QgsMarkerLineSymbolLayerV2(True, 1.0)
+                slayer = QgsMarkerLineSymbolLayer(True, 1.0)
                 mlayer = slayer.subSymbol()
-                anewlayer = QgsSvgMarkerSymbolLayerV2(':/icons/svg/flow_dir.svg')
+                anewlayer = QgsSvgMarkerSymbolLayer(':/icons/svg/flow_dir.svg')
                 anewlayer.setSize(2.8)
                 # lDataDefined = QgsDataDefined(True, True,
                 #                               'CASE WHEN "color" < 0 THEN 180.0 ELSE 0.0 END',
@@ -959,15 +961,15 @@ try:
                 if anewlayer:
                     mlayer.changeSymbolLayer(0, anewlayer)
                     mlayer.setDataDefinedAngle(lDataDefined)
-                    slayer.setPlacement(QgsMarkerLineSymbolLayerV2.CentralPoint)
+                    slayer.setPlacement(QgsMarkerLineSymbolLayer.CentralPoint)
                     # symbol.appendSymbolLayer(slayer)
                     # symbol.setDataDefinedAngle(lDataDefined)
-                    # renderer = QgsSingleSymbolRendererV2(symbol)
-                    # layer.setRendererV2(renderer)
+                    # renderer = QgsSingleSymbolRenderer(symbol)
+                    # layer.setRenderer(renderer)
 
             if arenderer:
                 if do_flowdir and slayer:
-                    # arenderer = QgsGraduatedSymbolRendererV2()
+                    # arenderer = QgsGraduatedSymbolRenderer()
                     ranges = []
                     for rng in arenderer.ranges():
                         # rng = QgsRendererRangeV2()
@@ -977,10 +979,10 @@ try:
                         nrng = QgsRendererRangeV2(rng.lowerValue(), rng.upperValue(), ns, rng.label())
                         ranges.append(nrng)
 
-                    nr = QgsGraduatedSymbolRendererV2("value", ranges)
-                    layer.setRendererV2(nr)
+                    nr = QgsGraduatedSymbolRenderer("value", ranges)
+                    layer.setRenderer(nr)
                 else:
-                    layer.setRendererV2(arenderer.clone())
+                    layer.setRenderer(arenderer.clone())
             else:
                 if min is None or max is None:
                     min = 0
@@ -997,11 +999,11 @@ try:
                     symbol = EmbedMap.validatedDefaultSymbol(layer.geometryType())
                     if layer.geometryType() == 0:
                         EmbedMap.set_default_point_renderer(layer, None, 3.5, False)
-                        symbol = layer.rendererV2().symbols()[0].clone()
+                        symbol = layer.Renderer().symbols()[0].clone()
                         # symbol.setSize(1.5)
                     elif layer.geometryType() == 1:
                         EmbedMap.set_default_line_renderer(layer, False)
-                        symbol = layer.rendererV2().symbols()[0].clone()
+                        symbol = layer.Renderer().symbols()[0].clone()
                         # symbol.setWidth(0.5)
                         if do_flowdir and slayer:
                             symbol.appendSymbolLayer(slayer.clone())
@@ -1010,12 +1012,12 @@ try:
                     rng = QgsRendererRangeV2(lower, upper, symbol, label)
                     ranges.append(rng)
 
-                arenderer = QgsGraduatedSymbolRendererV2("value", ranges)
-                layer.setRendererV2(arenderer)
+                arenderer = QgsGraduatedSymbolRenderer("value", ranges)
+                layer.setRenderer(arenderer)
 
             for feature in provider.getFeatures():
                 val = feature['value']
-                for rng in layer.rendererV2().ranges():
+                for rng in layer.Renderer().ranges():
                     if val >= rng.lowerValue() and val <= rng.upperValue():
                         c = rng.symbol().color()
                         provider.changeAttributeValues({feature.id() : {1 : str(c.red()) + "," +
@@ -1038,7 +1040,6 @@ try:
             self.model.setFlag(QgsLayerTreeModel.AllowNodeReorder)
             self.model.setFlag(QgsLayerTreeModel.AllowNodeRename)
             self.model.setFlag(QgsLayerTreeModel.AllowNodeChangeVisibility)
-            self.model.setFlag(QgsLayerTreeModel.AllowSymbologyChangeState)
             self.model.setFlag(QgsLayerTreeModel.AllowLegendChangeState)
             self.model.setFlag(QgsLayerTreeModel.ShowLegend)
             self.view = QgsLayerTreeView()
@@ -1943,7 +1944,7 @@ try:
                         if map_points:
                             self.layer_spatial_indexes.append((lyr, map_points, canvas_points, ids))
                 except Exception as e:
-                    print str(e)
+                    print(str(e))
 
         def find_nearest_feature(self, canvas_point):
             self.nearest_layer = None
@@ -1967,7 +1968,7 @@ try:
                         pt_index += 1
 
                 except Exception as e1:
-                    print str(e1)
+                    print(str(e1))
 
             if self.nearest_layer:
                 iterator = self.nearest_layer.getFeatures(QgsFeatureRequest().setFilterFid(nearest_pt_id))
@@ -2187,7 +2188,7 @@ try:
                         if found:
                             self.layer_spatial_indexes.append((lyr, spatial_index, ids, None))
                 except Exception as e:
-                    print str(e)
+                    print(str(e))
 
         def make_center_point(self, geometry):
             pt = None
@@ -2280,7 +2281,7 @@ try:
                             self.selected_names.append(nearest_feature_name)
                         self.session.select_named_items(self.nearest_layer, self.selected_names)
             except Exception as e2:
-                print str(e2) + '\n' + str(traceback.print_exc())
+                print(str(e2) + '\n' + str(traceback.print_exc()))
 
         def canvasPressEvent(self, mouse_event):
             try:
@@ -2327,7 +2328,7 @@ try:
                     self.session.clear_object_listing()
 
             except Exception as e2:
-                print str(e2) + '\n' + str(traceback.print_exc())
+                print(str(e2) + '\n' + str(traceback.print_exc()))
 
         def find_nearest_feature(self, map_point, make_distance_labels=False):
             """ Locates the closest point in self.layer_spatial_indexes and Sets:
@@ -2366,7 +2367,7 @@ try:
                         sp_index += 1
 
                 except Exception as e1:
-                    print str(e1)
+                    print(str(e1))
                 layer_index += 1
 
             if nearest_feature_id > -1 and self.nearest_layer:
@@ -2494,7 +2495,7 @@ try:
                             self.canvas.refresh()
 
             except Exception as e2:
-                print str(e2) + '\n' + str(traceback.print_exc())
+                print(str(e2) + '\n' + str(traceback.print_exc()))
 
 
         # def canvasMoveEvent(self, event):
@@ -2616,7 +2617,7 @@ try:
                         if found:
                             self.layer_spatial_indexes.append((lyr, spatial_index, ids, pt_indexes))
                 except Exception as e:
-                    print str(e)
+                    print(str(e))
 
     # Replaced by ui/import_export.py
     # class SaveAsGis:
@@ -2656,19 +2657,19 @@ try:
     #         QgsVectorFileWriter.writeAsVectorFormat(layer, file_name, "utf-8", crs, driver_name)
 
     class MapSymbol(Enum):
-        circle = 1
-        square = 2
-        cross = 3
-        rectangle = 4
-        diamond = 5
-        pentagon = 6
-        triangle = 7
-        equitri = 8
-        star = 9
-        regstar = 10
-        arrow = 11
-        fillarrowhead = 12
-        x = 13
+        circle = QgsSimpleMarkerSymbolLayer.Circle
+        square = QgsSimpleMarkerSymbolLayer.Square
+        cross = QgsSimpleMarkerSymbolLayer.Cross
+        rectangle = QgsSimpleMarkerSymbolLayer.Square
+        diamond = QgsSimpleMarkerSymbolLayer.Diamond
+        pentagon = QgsSimpleMarkerSymbolLayer.Pentagon
+        triangle = QgsSimpleMarkerSymbolLayer.Triangle
+        equitri = QgsSimpleMarkerSymbolLayer.EquilateralTriangle
+        star = QgsSimpleMarkerSymbolLayer.Star
+        regstar = QgsSimpleMarkerSymbolLayer.Star
+        arrow = QgsSimpleMarkerSymbolLayer.Arrow
+        fillarrowhead = QgsSimpleMarkerSymbolLayer.ArrowHeadFilled
+        x = QgsSimpleMarkerSymbolLayer.Cross2
 
 
     class LegendMenuProvider(QgsLayerTreeViewMenuProvider):
@@ -2732,21 +2733,21 @@ try:
                 return
             ed = None
             new_renderer = None
-            if isinstance(lyr.rendererV2(), QgsGraduatedSymbolRendererV2):
-                ed = GraduatedSymbolV2(lyr, None)
+            if isinstance(lyr.Renderer(), QgsGraduatedSymbolRenderer):
+                ed = GraduatedSymbol(lyr, None)
                 if ed.exec_():
-                    new_renderer = QgsGraduatedSymbolRendererV2.convertFromRenderer(ed.get_renderer())
+                    new_renderer = QgsGraduatedSymbolRenderer.convertFromRenderer(ed.get_renderer())
             else:
-                old_renderer = self.view.currentLayer().rendererV2()
-                ed = QgsSymbolV2SelectorDialog(old_renderer.symbol(),
-                                           QgsStyleV2.defaultStyle(),
+                old_renderer = self.view.currentLayer().Renderer()
+                ed = QgsSymbolSelectorDialog(old_renderer.symbol(),
+                                           QgsStyle.defaultStyle(),
                                            lyr, None, False)
 
                 if ed.exec_():
                     new_renderer = old_renderer.clone()
 
             if new_renderer:
-                lyr.setRendererV2(new_renderer)
+                lyr.setRenderer(new_renderer)
                 self.map_control.layer_styles[lyr.id()] = new_renderer.clone()
                 lyr.triggerRepaint()
                 self.map_control.session.update_thematic_map()
@@ -2804,16 +2805,16 @@ try:
             self.view.setCurrentLayer(None)
 
 
-    class GraduatedSymbolV2(QtGui.QDialog):
+    class GraduatedSymbol(QtWidgets.QDialog):
         def __init__(self, layer, parent=None, **kwargs):
             QDialog.__init__(self)
             self.layer = layer
             self.keepGoing = True
 
             self.setWindowTitle('Graduated Symbol Editor')
-            layout = QtGui.QVBoxLayout()
+            layout = QtWidgets.QVBoxLayout()
             self.editor = QgsGraduatedSymbolRendererV2Widget(layer, QgsStyleV2.defaultStyle(),
-                                                             layer.rendererV2())
+                                                             layer.Renderer())
             buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Close)
 
             layout.addWidget(self.editor)
@@ -2829,14 +2830,14 @@ try:
             return self.editor.renderer()
 
 
-    class RasterStyleEditor(QtGui.QDialog):
+    class RasterStyleEditor(QtWidgets.QDialog):
         def __init__(self, layer, parent=None, **kwargs):
             QDialog.__init__(self)
             self.layer = layer
             self.keepGoing = True
 
             self.setWindowTitle('Raster Style Editor')
-            layout = QtGui.QVBoxLayout()
+            layout = QtWidgets.QVBoxLayout()
             # self.layer = QgsRasterLayer()
             # self.editor = QgsRasterRendererWidget(layer, self.layer.extent())
             renderer_type = ''
@@ -2865,7 +2866,7 @@ try:
             return self.editor.renderer()
 
 
-    class MapOverview(QtGui.QDialog):
+    class MapOverview(QtWidgets.QDialog):
         def __init__(self, layerset_ids, canvas, parent=None, **kwargs):
             QDialog.__init__(self)
             self.layerset_ids = layerset_ids
@@ -2908,5 +2909,5 @@ try:
             self.setLayout(layout)
 
 
-except:
-    print "Skipping map_tools"
+except Exception as e:
+    print("Skipping map_tools: " + e)

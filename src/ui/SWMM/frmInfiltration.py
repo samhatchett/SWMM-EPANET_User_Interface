@@ -13,9 +13,9 @@ from core.swmm.hydrology.subcatchment import CurveNumberInfiltration
 from ui.model_utility import ParseData
 
 
-class frmInfiltration(QtGui.QMainWindow, Ui_frmInfiltrationEditor):
+class frmInfiltration(QtWidgets.QMainWindow, Ui_frmInfiltrationEditor):
     def __init__(self, parent, edit_these, new_item, title, **kwargs):
-        QtGui.QMainWindow.__init__(self, parent)
+        QtWidgets.QMainWindow.__init__(self, parent)
         self.helper = HelpHandler(self)
         option_section = parent.project.find_section('OPTIONS')
         if option_section.infiltration=="HORTON" or option_section.infiltration=="MODIFIED_HORTON":
@@ -26,9 +26,9 @@ class frmInfiltration(QtGui.QMainWindow, Ui_frmInfiltrationEditor):
             self.help_topic = "swmm/src/src/curvenumberinfiltrationpara.htm"
         self.setupUi(self)
         self.setWindowTitle(title)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.cboInfilModel, QtCore.SIGNAL("currentIndexChanged(int)"),
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cboInfilModel, QtCore.SIGNAL("currentIndexChanged(int)"),
                                self.cboInfilModel_currentIndexChanged)
 
         self.defaults = None
@@ -70,9 +70,9 @@ class frmInfiltration(QtGui.QMainWindow, Ui_frmInfiltrationEditor):
         self.corner_label = QtGui.QLabel("Property", self.tblGeneric)
         self.corner_label.setAlignment(QtCore.Qt.AlignCenter)
         self.corner_label.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
-        QtCore.QObject.connect(self.tblGeneric.verticalHeader(),
+        #QtCore.QObject.connect(self.tblGeneric.verticalHeader(),
                                QtCore.SIGNAL("geometriesChanged()"), self.resizeCorner)
-        QtCore.QObject.connect(self.tblGeneric.horizontalHeader(),
+        #QtCore.QObject.connect(self.tblGeneric.horizontalHeader(),
                                QtCore.SIGNAL("geometriesChanged()"), self.resizeCorner)
 
     def cboInfilModel_currentIndexChanged(self, currentIndex):

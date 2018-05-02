@@ -9,24 +9,24 @@ from ui.SWMM.frmTimeSeriesPlotDesigner import Ui_frmTimeSeriesPlot
 from ui.SWMM.frmTimeSeriesSelection import frmTimeSeriesSelection
 from core.graph import SWMM as graphSWMM
 
-class frmTimeSeriesPlot(QtGui.QMainWindow, Ui_frmTimeSeriesPlot):
+class frmTimeSeriesPlot(QtWidgets.QMainWindow, Ui_frmTimeSeriesPlot):
     MAGIC = "TSGRAPHSPEC:"
 
     def __init__(self, session):
         self.session = session
-        QtGui.QMainWindow.__init__(self, session)
+        QtWidgets.QMainWindow.__init__(self, session)
         self.helper = HelpHandler(self)
         self.help_topic = "swmm/src/src/timeseriesplotdialog.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.rbnDate, QtCore.SIGNAL("clicked()"), self.rbnDate_Clicked)
-        QtCore.QObject.connect(self.rbnElapsed, QtCore.SIGNAL("clicked()"), self.rbnDate_Clicked)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
-        QtCore.QObject.connect(self.btnAdd, QtCore.SIGNAL("clicked()"), self.btnAdd_Clicked)
-        QtCore.QObject.connect(self.btnRemove, QtCore.SIGNAL("clicked()"), self.btnRemove_Clicked)
-        QtCore.QObject.connect(self.btnSave, QtCore.SIGNAL("clicked()"), self.save_file)
-        QtCore.QObject.connect(self.btnLoad, QtCore.SIGNAL("clicked()"), self.load_file)
-        QtCore.QObject.connect(self.btnScript, QtCore.SIGNAL("clicked()"), self.save_script)
+        #QtCore.QObject.connect(self.rbnDate, QtCore.SIGNAL("clicked()"), self.rbnDate_Clicked)
+        #QtCore.QObject.connect(self.rbnElapsed, QtCore.SIGNAL("clicked()"), self.rbnDate_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.btnAdd, QtCore.SIGNAL("clicked()"), self.btnAdd_Clicked)
+        #QtCore.QObject.connect(self.btnRemove, QtCore.SIGNAL("clicked()"), self.btnRemove_Clicked)
+        #QtCore.QObject.connect(self.btnSave, QtCore.SIGNAL("clicked()"), self.save_file)
+        #QtCore.QObject.connect(self.btnLoad, QtCore.SIGNAL("clicked()"), self.load_file)
+        #QtCore.QObject.connect(self.btnScript, QtCore.SIGNAL("clicked()"), self.save_script)
         self.cboStart.currentIndexChanged.connect(self.cboStart_currentIndexChanged)
         self.cboEnd.currentIndexChanged.connect(self.cboEnd_currentIndexChanged)
         # self.installEventFilter(self)

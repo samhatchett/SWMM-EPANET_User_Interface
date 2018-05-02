@@ -68,4 +68,4 @@ try:
 
 
 except Exception as ex:
-    print "Skip loading ImportExportGIS plugin: " + str(ex)
+    print("Skip loading ImportExportGIS plugin: " + str(ex))

@@ -51,7 +51,7 @@ class InputFileWriterBase(object):
                     writer = SectionWriterAsList(section_name, SectionWriter(), None)
                 try:
                     section_text = writer.as_text(section).rstrip('\n')
-                    if section_text and section_text <> '[END]':                    # Skip adding blank sections
+                    if section_text and section_text != '[END]':                    # Skip adding blank sections
                         section_text_list.append(section_text)
 
                     # If we have a section order and derived sections to insert,
@@ -72,7 +72,7 @@ class InputFileWriterBase(object):
                             pass
                 except Exception as e1:
                     section_text_list.append(str(e1) + '\n' + str(traceback.print_exc()))
-            for section_text in derived_sections.itervalues():
+            for section_text in derived_sections.values():
                 section_text_list.append(section_text)
             return '\n\n'.join(section_text_list) + '\n'
         except Exception as e2:
@@ -193,7 +193,7 @@ class SectionWriterAsList(SectionWriter):
             section_comment (str): Default comment lines that appear at the beginning of the section. Can be None.
         """
         if list_type_writer is None:
-            print "No list_type_writer specified for " + section_name
+            print("No list_type_writer specified for " + section_name)
         if not section_name.startswith("["):
             section_name = '[' + section_name + ']'
         self.SECTION_NAME = section_name.upper()

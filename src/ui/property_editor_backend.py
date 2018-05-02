@@ -1,5 +1,6 @@
 import PyQt5.QtCore as QtCore
 import PyQt5.QtGui as QtGui
+import PyQt5.QtWidgets as QtWidgets
 from enum import Enum
 import ui.convenience
 
@@ -32,7 +33,7 @@ class PropertyEditorBackend:
                         checkbox.setChecked(value)
                         self.table.setCellWidget(row, column, checkbox)
                     if isinstance(value, Enum):
-                        combobox = QtGui.QComboBox()
+                        combobox = QtWidgets.QComboBox()
                         ui.convenience.set_combo_items(type(value), combobox)
                         ui.convenience.set_combo(combobox, value)
                         self.table.setCellWidget(row, column, combobox)
@@ -45,7 +46,7 @@ class PropertyEditorBackend:
             self.table.setColumnCount(1)
             self.table.setRowCount(1)
             self.table.setVerticalHeaderLabels(["Error"])
-            led = QtGui.QLineEdit("No items selected to edit")
+            led = QtWidgets.QLineEdit("No items selected to edit")
             self.table.setItem(-1, 1, QtGui.QTableWidgetItem(led.text()))
 
     def apply_edits(self):
@@ -60,14 +61,14 @@ class PropertyEditorBackend:
                         for meta_item in self.meta:
                             if meta_item.label == label:
                                 if not meta_item.attribute:
-                                    print "No attribute to set for " + label
+                                    print("No attribute to set for " + label)
                                     break
                                 new_value = None
                                 widget = self.table.cellWidget(row, column)
                                 if widget:
-                                    if isinstance(widget, QtGui.QCheckBox):
+                                    if isinstance(widget, QtWidgets.QCheckBox):
                                         new_value = widget.isChecked()
-                                    elif isinstance(widget, QtGui.QComboBox):
+                                    elif isinstance(widget, QtWidgets.QComboBox):
                                         default_value = self.meta.value(meta_item, edit_this)
                                         if isinstance(default_value, Enum):
                                             try:

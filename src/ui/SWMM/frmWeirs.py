@@ -37,7 +37,7 @@ class frmWeirs(frmGenericPropertyEditor):
 
         for column in range(0, self.tblGeneric.columnCount()):
             # for flapgate, show true/false
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('True')
             combobox.addItem('False')
             combobox.setCurrentIndex(1)
@@ -46,7 +46,7 @@ class frmWeirs(frmGenericPropertyEditor):
                     combobox.setCurrentIndex(0)
             self.tblGeneric.setCellWidget(11, column, combobox)
             # for can surcharge, show true/false
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('True')
             combobox.addItem('False')
             combobox.setCurrentIndex(1)

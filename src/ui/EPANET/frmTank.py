@@ -38,7 +38,7 @@ class frmTank(frmGenericPropertyEditor):
 
         for column in range(0, self.tblGeneric.columnCount()):
             # for curve, show available curves
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for curve in self.project.curves.value:

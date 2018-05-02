@@ -1,5 +1,4 @@
-import PyQt5.QtCore as QtCore
-import PyQt5.QtGui as QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 from Externals.epanet.outputapi.ENOutputWrapper import ENR_node_type, ENR_link_type
 from core.epanet.reports import Reports
@@ -8,10 +7,10 @@ from ui.frmGenericListOutput import frmGenericListOutput
 from ui.model_utility import transl8, process_events
 
 
-class frmTable(QtGui.QMainWindow, Ui_frmTable):
+class frmTable(QtWidgets.QMainWindow, Ui_frmTable):
 
     def __init__(self, main_form):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "epanet/src/src/Table_Op.htm"
         self.setupUi(self)
         self.tabWidget.setCurrentIndex(0)

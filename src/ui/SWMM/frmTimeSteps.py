@@ -4,13 +4,13 @@ import core.swmm.options
 from ui.SWMM.frmTimeStepsDesigner import Ui_frmTimeSteps
 import math
 
-class frmTimeSteps(QtGui.QMainWindow, Ui_frmTimeSteps):
+class frmTimeSteps(QtWidgets.QMainWindow, Ui_frmTimeSteps):
     def __init__(self, main_form=None):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/simulationoptions_timesteps.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.set_from(main_form.project)
         self._main_form = main_form
 

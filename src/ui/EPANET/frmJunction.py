@@ -41,7 +41,7 @@ class frmJunction(frmGenericPropertyEditor):
             # for pattern, show available patterns
             pattern_section = self.project.find_section("PATTERNS")
             pattern_list = pattern_section.value[0:]
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in pattern_list:

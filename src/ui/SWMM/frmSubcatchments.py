@@ -50,7 +50,7 @@ class frmSubcatchments(frmGenericPropertyEditor):
         for column in range(0, self.tblGeneric.columnCount()):
 
             # for snowpacks, show available snowpacks
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('')
             selected_index = 0
             for value in self.project.snowpacks.value:
@@ -63,7 +63,7 @@ class frmSubcatchments(frmGenericPropertyEditor):
             # show available rain gages
             raingage_section = self.project.find_section("RAINGAGES")
             raingage_list = raingage_section.value[0:]
-            combobox = QtGui.QComboBox()
+            combobox = QtWidgets.QComboBox()
             combobox.addItem('*')
             selected_index = 0
             for value in raingage_list:

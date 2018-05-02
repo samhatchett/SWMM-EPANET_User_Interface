@@ -98,7 +98,7 @@ class UserString:
     def capitalize(self): return self.__class__(self.data.capitalize())
     def center(self, width, *args):
         return self.__class__(self.data.center(width, *args))
-    def count(self, sub, start=0, end=sys.maxint):
+    def count(self, sub, start=0, end=sys.maxsize):
         return self.data.count(sub, start, end)
     def decode(self, encoding=None, errors=None): # XXX improve this?
         if encoding:
@@ -116,13 +116,13 @@ class UserString:
                 return self.__class__(self.data.encode(encoding))
         else:
             return self.__class__(self.data.encode())
-    def endswith(self, suffix, start=0, end=sys.maxint):
+    def endswith(self, suffix, start=0, end=sys.maxsize):
         return self.data.endswith(suffix, start, end)
     def expandtabs(self, tabsize=8):
         return self.__class__(self.data.expandtabs(tabsize))
-    def find(self, sub, start=0, end=sys.maxint):
+    def find(self, sub, start=0, end=sys.maxsize):
         return self.data.find(sub, start, end)
-    def index(self, sub, start=0, end=sys.maxint):
+    def index(self, sub, start=0, end=sys.maxsize):
         return self.data.index(sub, start, end)
     def isalpha(self): return self.data.isalpha()
     def isalnum(self): return self.data.isalnum()
@@ -142,9 +142,9 @@ class UserString:
         return self.data.partition(sep)
     def replace(self, old, new, maxsplit=-1):
         return self.__class__(self.data.replace(old, new, maxsplit))
-    def rfind(self, sub, start=0, end=sys.maxint):
+    def rfind(self, sub, start=0, end=sys.maxsize):
         return self.data.rfind(sub, start, end)
-    def rindex(self, sub, start=0, end=sys.maxint):
+    def rindex(self, sub, start=0, end=sys.maxsize):
         return self.data.rindex(sub, start, end)
     def rjust(self, width, *args):
         return self.__class__(self.data.rjust(width, *args))
@@ -155,8 +155,8 @@ class UserString:
         return self.data.split(sep, maxsplit)
     def rsplit(self, sep=None, maxsplit=-1):
         return self.data.rsplit(sep, maxsplit)
-    def splitlines(self, keepends=0): return self.data.splitlines(keepends)
-    def startswith(self, prefix, start=0, end=sys.maxint):
+    def splitlines(self, keepends=0): return self.data.splitlines(keepends > 0)
+    def startswith(self, prefix, start=0, end=sys.maxsize):
         return self.data.startswith(prefix, start, end)
     def strip(self, chars=None): return self.__class__(self.data.strip(chars))
     def swapcase(self): return self.__class__(self.data.swapcase())
@@ -182,6 +182,7 @@ class MutableString(UserString):
 
     A faster and better solution is to rewrite your program using lists."""
     def __init__(self, string=""):
+        super().__init__()
         self.data = string
     def __hash__(self):
         raise TypeError("unhashable type (it is mutable)")
@@ -226,6 +227,7 @@ class String(MutableString, Union):
                 ('data', c_char_p)]
 
     def __init__(self, obj=""):
+        super().__init__()
         if isinstance(obj, (str, unicode, UserString)):
             self.data = str(obj)
         else:
@@ -376,7 +378,7 @@ class LibraryLoader(object):
                 return ctypes.CDLL(path, ctypes.RTLD_GLOBAL)
             else:
                 return ctypes.cdll.LoadLibrary(path)
-        except OSError,e:
+        except OSError as e:
             raise ImportError(e)
 
     def getpaths(self,libname):
@@ -591,18 +593,25 @@ try:
     _libs["ENOutputAPI-64"] = load_library("ENOutputAPI-64")
 except:
     print("Looking for ENOutputAPI-64...")
+    fname = "ENOutputAPI-64"
+    if sys.platform.startswith("linux"):
+        fname += ".so"
+    elif sys.platform.startswith("darwin"):
+        fname += ".dylib"
+    elif sys.platform.startswith("win"):
+        fname += ".dll"
     if sys.platform == "linux2":
         _libs["ENOutputAPI-64"] = ctypes.cdll.LoadLibrary(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ENOutputAPI-64.so"))
     else:
         search_dir = os.path.dirname(os.path.realpath(__file__))
-        while search_dir and not os.path.isfile(os.path.join(search_dir, "ENOutputAPI-64.dll")):
-            print("ENOutputAPI-64.dll Not found in " + search_dir)
+        while search_dir and not os.path.isfile(os.path.join(search_dir, fname)):
+            print(fname + " Not found in " + search_dir)
             next_search_dir = os.path.dirname(search_dir)
             if next_search_dir == search_dir:
                 break
             search_dir = next_search_dir
-        print("Try loading ENOutputAPI-64.dll from " + search_dir)
-        _libs["ENOutputAPI-64"] = load_library(os.path.join(search_dir, "ENOutputAPI-64"))
+        print("Try loading " + fname + " from " + search_dir)
+        _libs["ENOutputAPI-64"] = load_library(os.path.join(search_dir, fname))
 
 if _libs["ENOutputAPI-64"]:
     print("ENOutputAPI: " + str(_libs["ENOutputAPI-64"]))

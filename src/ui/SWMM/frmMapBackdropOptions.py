@@ -5,13 +5,13 @@ from core.swmm.options.map import MapUnits
 from ui.SWMM.frmMapBackdropOptionsDesigner import Ui_frmMapBackdropOptions
 
 
-class frmMapBackdropOptions(QtGui.QMainWindow, Ui_frmMapBackdropOptions):
+class frmMapBackdropOptions(QtWidgets.QMainWindow, Ui_frmMapBackdropOptions):
     def __init__(self, main_form=None):
-        QtGui.QMainWindow.__init__(self, main_form)
+        QtWidgets.QMainWindow.__init__(self, main_form)
         self.help_topic = "swmm/src/src/mapdimensionsdialog.htm"
         self.setupUi(self)
-        QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
-        QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
+        #QtCore.QObject.connect(self.cmdOK, QtCore.SIGNAL("clicked()"), self.cmdOK_Clicked)
+        #QtCore.QObject.connect(self.cmdCancel, QtCore.SIGNAL("clicked()"), self.cmdCancel_Clicked)
         self.set_from(main_form.project)
         self._main_form = main_form
 
